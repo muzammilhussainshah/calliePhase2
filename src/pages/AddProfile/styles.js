@@ -72,5 +72,10 @@ export const styles = StyleSheet.create({
         color: primary ? Colors.secondary : Colors.primary
     }),
 
+    profileStyle: {
+        height: '90%',
+        width: '90%',
+        resizeMode: 'cover'
+    }
 
 });

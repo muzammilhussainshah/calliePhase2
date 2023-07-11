@@ -4,11 +4,14 @@ import React, {
 import {
   View,
   Text,
-  ActivityIndicator
+  ActivityIndicator,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 import Button from '../../components/Button';
 import Colors from '../../styles/Colors';
@@ -16,6 +19,22 @@ import { styles } from './styles';
 
 const AddProfile = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
+
+  const [imgUrl, setImgURL] = useState('')
+
+  const getMenu = async () => {
+    //    alert('getImg function');
+    try {
+      launchImageLibrary({ mediaType: 'photo' }, response => {
+        if (response?.assets?.length && response?.assets[0]?.uri) {
+          setImgURL(response?.assets[0]?.uri)
+          console.log(response, 'response?.assets[0]?.uri')
+        }
+      });
+    } catch (err) {
+      console.log(err, '146');
+    }
+  };
 
   const renderContent = () => {
     if (loading) {
@@ -36,9 +55,13 @@ const AddProfile = ({ navigation, route }) => {
           <Text style={styles.description}>
             You can always change it later.
           </Text>
-          <View style={styles.profileContainer}>
-            <AntDesign name="picture" size={RFPercentage(10)} color={Colors.gray} />
-          </View>
+
+          <TouchableOpacity onPress={getMenu} style={styles.profileContainer}>
+            {imgUrl?.length > 0 ?
+              <Image source={{ uri: imgUrl }} style={styles.profileStyle} /> :
+              <AntDesign name="picture" size={RFPercentage(10)} color={Colors.gray} />
+            }
+          </TouchableOpacity>
         </View>
         <View style={styles.footer}>
           <Button
