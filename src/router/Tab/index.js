@@ -12,6 +12,7 @@ import Home from '../../pages/Home/Home';
 import SetPassword from '../../pages/SetPassword/SetPassword';
 import { useDispatch, } from 'react-redux';
 import ActionTypes from '../../store/constant/constant';
+import AddProfile from '../../pages/AddProfile/AddProfile';
 
 const Stack = createStackNavigator();
 
@@ -26,13 +27,14 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"Welcome"}
+        initialRouteName={"AddProfile"}
       >
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
         <Stack.Screen name="SetPassword" component={SetPassword} />
+        <Stack.Screen name="AddProfile" component={AddProfile} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>

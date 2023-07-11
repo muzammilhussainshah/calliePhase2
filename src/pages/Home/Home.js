@@ -1,5 +1,5 @@
 // @app
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -36,33 +36,33 @@ const Home = ({ navigation }) => {
         else await SignOut()
       } catch (error) {
         console.log(error, 'error')
-         Alert.alert(error)
+        Alert.alert(error)
         // Error saving data
       }
     }
 
     getUserDataAsync()
   }, [])
-  const shareMsg = getUserData?.firstName+ " " + getUserData?.lastName + " is inviting you to join them on Callie - the social learning platform for college students” "
+  const shareMsg = getUserData?.firstName + " " + getUserData?.lastName + " is inviting you to join them on Callie - the social learning platform for college students” "
 
-//  useEffect(() => {
-//    // verifiedUserSaveInDb()
-//  }, [])
+  //  useEffect(() => {
+  //    // verifiedUserSaveInDb()
+  //  }, [])
 
-const SignOut = async () => {
-  try {
-   dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
-   await AsyncStorage.removeItem("currentUserData");
-  await auth().signOut()
-  console.log("signout done")
-  navigation.navigate('Welcome')
-} catch (error) {
-  //Alert.alert(error)
-  console.log("eroor"+error.message)
-  navigation.navigate('Welcome')
-  // Error saving data
-}
-}
+  const SignOut = async () => {
+    try {
+      dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
+      await AsyncStorage.removeItem("currentUserData");
+      await auth().signOut()
+      console.log("signout done")
+      navigation.navigate('Welcome')
+    } catch (error) {
+      //Alert.alert(error)
+      console.log("eroor" + error.message)
+      navigation.navigate('Welcome')
+      // Error saving data
+    }
+  }
 
   function verifiedUserSaveInDb() {
     const currentUser = auth().currentUser;
@@ -112,41 +112,41 @@ const SignOut = async () => {
 
   return (
     loading ?
-    <View style={styles.container}>
-    <ActivityIndicator size="large" color="#fff" />
-    </View>
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
       :
-    <SafeAreaView style={styles.container}>
-      <View style={styles.headerContainer}>
-       <Image
-          style={styles.logo}
-          source={require('../../images/Logo.png')}
-        />
-        <Text style={[styles.headerText, styles.shadow]}>allie</Text>
-      </View>
-      <View style={{ flex: 1, justifyContent: 'space-evenly' }}>
-        <View>
-
-          <Text style={styles.inputTitle}>Your spot is reserved!</Text>
-
-          <Text style={styles.description}>We’ll launch at schools with the most signups, so tell your friends about us and we’ll notify you when we’re ready!</Text>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Image
+            style={styles.logo}
+            source={require('../../images/Logo.png')}
+          />
+          <Text style={[styles.headerText, styles.shadow]}>allie</Text>
         </View>
-        <Button
-          title={`INVITE YOUR FRIENDS`}
-          callBack={async () => {
-            setLoading(true)
-             onShare(shareMsg)
-             dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
-             setLoading(false)
-          ///await auth().signOut()
-            // navigation.navigate('Welcome')
-          }
-          }
-          customStyle={styles.loginPrimaryButton(true)}
-          titleStyle={styles.loginPrimaryButtonText(true)} />
-      </View>
+        <View style={{ flex: 1, justifyContent: 'space-evenly' }}>
+          <View>
 
-    </SafeAreaView >
+            <Text style={styles.inputTitle}>Your spot is reserved!</Text>
+
+            <Text style={styles.description}>We’ll launch at schools with the most signups, so tell your friends about us and we’ll notify you when we’re ready!</Text>
+          </View>
+          <Button
+            title={`Log Out`}
+            callBack={async () => {
+              setLoading(true)
+              //  onShare(shareMsg)
+              dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
+              //  setLoading(false)
+              await auth().signOut()
+              // navigation.navigate('Welcome')
+            }
+            }
+            customStyle={styles.loginPrimaryButton(true)}
+            titleStyle={styles.loginPrimaryButtonText(true)} />
+        </View>
+
+      </SafeAreaView >
   );
 };
 export default Home;

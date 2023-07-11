@@ -19,11 +19,11 @@ const Welcome = ({ navigation }) => {
   const currentUser = useSelector((state) => state.root.currentUser)
 
   useEffect(() => {
-    console.log("welcomescreen"+currentUser)
+    console.log("welcomescreen" + currentUser)
     const getUserDataAsync = async (data) => {
       try {
         let data = await AsyncStorage.getItem('currentUserData');
-        console.log("welcome"+JSON.stringify(data))
+        console.log("welcome" + JSON.stringify(data))
         if (JSON.parse(data) !== null) if (currentUser && currentUser?._user?.emailVerified == false) navigation.replace('VerifyEmail')
       } catch (error) {
         console.log(error, 'error')
@@ -31,7 +31,7 @@ const Welcome = ({ navigation }) => {
         //Error saving data
       }
     }
-    
+
     getUserDataAsync()
 
   }, [currentUser])
@@ -46,7 +46,7 @@ const Welcome = ({ navigation }) => {
       />
       <Text style={[
         styles.title,
-      styles.shadow
+        styles.shadow
       ]}>
         Callie
       </Text>
@@ -56,7 +56,7 @@ const Welcome = ({ navigation }) => {
         callBack={() => Navigate(navigation, 'Signup')}
         customStyle={styles.loginPrimaryButton(true)}
         titleStyle={styles.loginPrimaryButtonText(true)} />
-     
+
 
     </SafeAreaView >
   );
