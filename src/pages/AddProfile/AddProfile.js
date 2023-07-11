@@ -6,7 +6,8 @@ import {
   Text,
   ActivityIndicator,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
+  SafeAreaView
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -46,7 +47,7 @@ const AddProfile = ({ navigation, route }) => {
     }
 
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.body}>
           <Text style={styles.inputTitle}>Profile Picture</Text>
           <Text style={styles.description}>
@@ -56,7 +57,9 @@ const AddProfile = ({ navigation, route }) => {
             You can always change it later.
           </Text>
 
-          <TouchableOpacity onPress={getMenu} style={styles.profileContainer}>
+          <TouchableOpacity
+            onPress={getMenu}
+            style={styles.profileContainer}>
             {imgUrl?.length > 0 ?
               <Image source={{ uri: imgUrl }} style={styles.profileStyle} /> :
               <AntDesign name="picture" size={RFPercentage(10)} color={Colors.gray} />
@@ -70,7 +73,7 @@ const AddProfile = ({ navigation, route }) => {
             titleStyle={styles.loginPrimaryButtonText(false)}
           />
         </View>
-      </View>
+      </SafeAreaView>
     );
   };
 

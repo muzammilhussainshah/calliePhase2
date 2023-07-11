@@ -13,6 +13,7 @@ import SetPassword from '../../pages/SetPassword/SetPassword';
 import { useDispatch, } from 'react-redux';
 import ActionTypes from '../../store/constant/constant';
 import AddProfile from '../../pages/AddProfile/AddProfile';
+import AddCurrentCourse from '../../pages/AddCurrentCourse/AddCurrentCourse';
 
 const Stack = createStackNavigator();
 
@@ -27,7 +28,7 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"AddProfile"}
+        initialRouteName={"AddCurrentCourse"}
       >
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
@@ -35,6 +36,7 @@ export const Navigation = () => {
         <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
         <Stack.Screen name="SetPassword" component={SetPassword} />
         <Stack.Screen name="AddProfile" component={AddProfile} />
+        <Stack.Screen name="AddCurrentCourse" component={AddCurrentCourse} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
