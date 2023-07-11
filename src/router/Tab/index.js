@@ -14,6 +14,7 @@ import { useDispatch, } from 'react-redux';
 import ActionTypes from '../../store/constant/constant';
 import AddProfile from '../../pages/AddProfile/AddProfile';
 import AddCurrentCourse from '../../pages/AddCurrentCourse/AddCurrentCourse';
+import EditGraduation from '../../pages/EditGraduation/EditGraduation';
 
 const Stack = createStackNavigator();
 
@@ -28,7 +29,7 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"AddCurrentCourse"}
+        initialRouteName={"EditGraduation"}
       >
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
@@ -37,6 +38,7 @@ export const Navigation = () => {
         <Stack.Screen name="SetPassword" component={SetPassword} />
         <Stack.Screen name="AddProfile" component={AddProfile} />
         <Stack.Screen name="AddCurrentCourse" component={AddCurrentCourse} />
+        <Stack.Screen name="EditGraduation" component={EditGraduation} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>

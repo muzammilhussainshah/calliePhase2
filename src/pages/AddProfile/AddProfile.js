@@ -24,7 +24,6 @@ const AddProfile = ({ navigation, route }) => {
   const [imgUrl, setImgURL] = useState('')
 
   const getMenu = async () => {
-    //    alert('getImg function');
     try {
       launchImageLibrary({ mediaType: 'photo' }, response => {
         if (response?.assets?.length && response?.assets[0]?.uri) {

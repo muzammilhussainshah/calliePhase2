@@ -4,8 +4,11 @@ import Colors from '../../styles/Colors';
 
 export const styles = StyleSheet.create({
 
-    container: { flex: 1, paddingHorizontal: RFPercentage(2), backgroundColor: Colors.primary, },
-
+    container: {
+        flex: 1,
+        paddingHorizontal: RFPercentage(2),
+        backgroundColor: Colors.primary,
+    },
     inputTitle: {
         fontSize: 24,
         textAlign: "center",
@@ -110,8 +113,16 @@ export const styles = StyleSheet.create({
         fontSize: RFPercentage(2),
         fontWeight: "600",
     },
-    myCoursesContentContainer: { flexDirection: 'row', flexWrap: 'wrap', width: "90%", alignSelf: "center" },
-    coursesContainer: { height: RFPercentage(50), backgroundColor: 'blue' },
+    myCoursesContentContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        width: "90%",
+        alignSelf: "center"
+    },
+    coursesContainer: {
+        height: RFPercentage(50),
+        backgroundColor: 'blue'
+    },
     loginPrimaryButton: (primary) => ({
         height: RFPercentage(4.5),
         alignSelf: 'center',
