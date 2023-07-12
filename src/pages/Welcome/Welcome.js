@@ -24,7 +24,11 @@ const Welcome = ({ navigation }) => {
       try {
         let data = await AsyncStorage.getItem('currentUserData');
         console.log("welcome" + JSON.stringify(data))
-        if (JSON.parse(data) !== null) if (currentUser && currentUser?._user?.emailVerified == false) navigation.replace('VerifyEmail')
+        if (JSON.parse(data) !== null) {
+          if (currentUser && currentUser?._user?.emailVerified == false) {
+            navigation.replace('VerifyEmail')
+          }
+        }
       } catch (error) {
         console.log(error, 'error')
         Alert.alert(error)

@@ -162,7 +162,7 @@ console.log("verify")
    if (signInSuccess.user.emailVerified)
    {
        verifiedUserSaveInDb() 
-       Navigate(navigation, 'Home');
+       Navigate(navigation, 'AddProfile');
 
    }
    else if (!email && !password) Alert.alert("Email not verified",'You have not verified your email. Check your inbox for a verification link or click Resend Email');
