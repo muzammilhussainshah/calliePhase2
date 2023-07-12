@@ -80,13 +80,13 @@ export const styles = StyleSheet.create({
         width: RFPercentage(3),
         marginBottom: RFPercentage(3)
     },
-    textAlignCenter: { textAlign: "center" },
+    textAlignCenter: { textAlign: "center", fontSize: RFPercentage(3.5) },
     title: {
         textAlign: "center",
         fontWeight: 'normal',
         alignSelf: 'center',
         width: '80%',
-        fontSize: RFPercentage(2.5)
+        fontSize: RFPercentage(2.3)
     },
     inputContainer2: {
         alignSelf: 'center',
@@ -99,7 +99,8 @@ export const styles = StyleSheet.create({
     },
     forgetPass: {
         textAlign: 'center',
-        marginVertical: RFPercentage(2)
+        marginVertical: RFPercentage(2),
+        fontSize: RFPercentage(2.5)
     },
     newUser: {
         fontWeight: '700',
@@ -111,6 +112,24 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         alignSelf: "center"
     },
+    inlineInputsContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: RFPercentage(1),
+        paddingHorizontal: RFPercentage(3),
+    },
+    forgetPassDescription: {
+        width: "55%",
+        textAlign: "left",
+        color: Colors.lightGray,
+    },
+    removemb: { marginBottom: RFPercentage(0) },
+    logo: {
+        height: RFPercentage(12),
+        width: RFPercentage(12),
+        alignSelf: "center"
+    },
+
 
 
 });

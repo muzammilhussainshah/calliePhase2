@@ -110,7 +110,7 @@ const Login = ({ navigation }) => {
       </TouchableOpacity>
 
       <Button
-        title="Log In"
+        title="LOG IN"
         callBack={handleSave}
         customStyle={styles.loginPrimaryButton(false)}
         titleStyle={styles.loginPrimaryButtonText(false)}

@@ -15,6 +15,8 @@ import ActionTypes from '../../store/constant/constant';
 import AddProfile from '../../pages/AddProfile/AddProfile';
 import AddCurrentCourse from '../../pages/AddCurrentCourse/AddCurrentCourse';
 import EditGraduation from '../../pages/EditGraduation/EditGraduation';
+import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword';
+import ForgetPasswordEmailSent from '../../pages/ForgetPasswordEmailSent/ForgetPasswordEmailSent';
 
 const Stack = createStackNavigator();
 
@@ -29,7 +31,7 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"Login"}
+        initialRouteName={"ForgetPasswordEmailSent"}
       >
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
@@ -39,6 +41,8 @@ export const Navigation = () => {
         <Stack.Screen name="AddProfile" component={AddProfile} />
         <Stack.Screen name="AddCurrentCourse" component={AddCurrentCourse} />
         <Stack.Screen name="EditGraduation" component={EditGraduation} />
+        <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+        <Stack.Screen name="ForgetPasswordEmailSent" component={ForgetPasswordEmailSent} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
