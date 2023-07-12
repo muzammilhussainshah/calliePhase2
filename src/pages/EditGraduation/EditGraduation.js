@@ -1,10 +1,7 @@
 import React from 'react';
 import { View, Text, SafeAreaView, Image } from 'react-native';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import SelectDropdown from 'react-native-select-dropdown';
 
 import Button from '../../components/Button';
-import Colors from '../../styles/Colors';
 import { styles } from './styles';
 import { countries } from './dummyData';
 import { DropDown } from './Component';
