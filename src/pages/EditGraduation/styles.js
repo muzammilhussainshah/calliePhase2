@@ -6,7 +6,6 @@ export const styles = StyleSheet.create({
 
     container: {
         flex: 1,
-        // paddingHorizontal: RFPercentage(2),
         backgroundColor: Colors.primary,
     },
     inputTitle: {
@@ -44,13 +43,13 @@ export const styles = StyleSheet.create({
         fontWeight: '700',
         color: primary ? Colors.secondary : Colors.primary
     }),
-    // dropDownContainer: { flex: 1, backgroundColor: Colors.white },
-
-
     dropdown2BtnStyle: {
-        height: RFPercentage(5), width: '60%', alignSelf: 'center', justifyContent: "center", alignItems: 'center', overflow: 'hidden',
-        // width: '100%',
-        // height: '100%',
+        height: RFPercentage(4.5),
+        width: '60%',
+        alignSelf: 'center',
+        justifyContent: "center",
+        alignItems: 'center',
+        overflow: 'hidden',
         backgroundColor: Colors.white,
         borderWidth: 1,
         borderRadius: RFPercentage(1),
@@ -58,24 +57,27 @@ export const styles = StyleSheet.create({
     dropdown2BtnTxtStyle: {
         color: Colors.gray,
         textAlign: 'left',
-        // fontWeight: 'bold',
+        fontSize: RFPercentage(2)
     },
     dropdown2DropdownStyle: {
-        // backgroundColor: '#444',
-        // borderBottomLeftRadius: 12,
         borderRadius: 12
-        // borderBottomRightRadius: 12,
     },
     dropdown2RowStyle: {
-        // ƒbackgroundColor: '#444',
         borderBottomColor: '#C5C5C5'
     },
     dropdown2RowTxtStyle: {
         color: Colors.gray,
+        fontSize: RFPercentage(2),
         textAlign: 'left',
-        fontWeight: 'bold',
     },
-    dropdownMainContainer: { height: RFPercentage(5), width: '60%', alignSelf: 'center', justifyContent: "center", alignItems: 'center', overflow: 'hidden', },
+    dropdownMainContainer: {
+        height: RFPercentage(5),
+        width: '60%',
+        alignSelf: 'center',
+        justifyContent: "center",
+        alignItems: 'center',
+        overflow: 'hidden',
+    },
     header: { flex: 2, },
     body: { flex: 8, },
 });
