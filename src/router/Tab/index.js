@@ -37,7 +37,7 @@ export const Navigation = () => {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="VerifyEmail" component={VerifyEmail} />
-        <Stack.Screen name="SetPassword" component={SetPassword} />
+        <Stack.Screen name="SetPassword" component={SetPassword} initialParams={{ comeFromForget: true }} />
         <Stack.Screen name="AddProfile" component={AddProfile} />
         <Stack.Screen name="AddCurrentCourse" component={AddCurrentCourse} />
         <Stack.Screen name="EditGraduation" component={EditGraduation} />

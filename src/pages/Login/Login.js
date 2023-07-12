@@ -89,7 +89,7 @@ const Login = ({ navigation }) => {
       {error ? (
         Alert.alert('Password Invalid', error, [{ text: 'OK', onPress: () => setError('') },])
       ) : null}
-     
+
       <TouchableOpacity
         onPress={() => setcheck(!check)}
         activeOpacity={.8}
@@ -115,8 +115,13 @@ const Login = ({ navigation }) => {
         customStyle={styles.loginPrimaryButton(false)}
         titleStyle={styles.loginPrimaryButtonText(false)}
       />
-      <Text style={[styles.inputTitle, styles.forgetPass]}>{`Forgot password`}</Text>
-      <Text style={[styles.description, styles.newUser]}>{`New user?`}</Text>
+      <TouchableOpacity activeOpacity={.8} onPress={() => Navigate(navigation, 'ForgetPassword')}>
+        <Text style={[styles.inputTitle, styles.forgetPass]}>{`Forgot password`}</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity activeOpacity={.8} onPress={() => Navigate(navigation, 'Signup')}>
+        <Text style={[styles.description, styles.newUser]}>{`New user?`}</Text>
+      </TouchableOpacity>
 
     </SafeAreaView>
   );
