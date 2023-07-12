@@ -80,7 +80,10 @@ export const styles = StyleSheet.create({
         width: RFPercentage(3),
         marginBottom: RFPercentage(3)
     },
-    textAlignCenter: { textAlign: "center", fontSize: RFPercentage(3.5) },
+    textAlignCenter: {
+        textAlign: "center",
+        fontSize: RFPercentage(3.5)
+    },
     title: {
         textAlign: "center",
         fontWeight: 'normal',

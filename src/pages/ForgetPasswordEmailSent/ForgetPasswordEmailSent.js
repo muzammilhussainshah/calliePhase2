@@ -1,22 +1,17 @@
 
 
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
-  TextInput,
-  Alert,
   Image
 } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '../../components/Button';
-import Colors from '../../styles/Colors';
 import { styles } from '../SetPassword/styles';
-import { RFPercentage } from 'react-native-responsive-fontsize';
 
 const ForgetPasswordEmailSent = ({ navigation }) => {
   return (

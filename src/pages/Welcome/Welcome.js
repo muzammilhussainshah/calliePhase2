@@ -31,9 +31,7 @@ const Welcome = ({ navigation }) => {
         //Error saving data
       }
     }
-
     getUserDataAsync()
-
   }, [currentUser])
 
   return (
@@ -56,7 +54,11 @@ const Welcome = ({ navigation }) => {
         callBack={() => Navigate(navigation, 'Signup')}
         customStyle={styles.loginPrimaryButton(true)}
         titleStyle={styles.loginPrimaryButtonText(true)} />
-
+      <Button
+        title={`SIGN IN`}
+        callBack={() => Navigate(navigation, 'Login')}
+        customStyle={styles.loginPrimaryButton(false)}
+        titleStyle={styles.loginPrimaryButtonText(false)} />
 
     </SafeAreaView >
   );
