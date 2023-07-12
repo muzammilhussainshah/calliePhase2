@@ -17,17 +17,20 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import Button from '../../components/Button';
 import Colors from '../../styles/Colors';
 import { styles } from './styles';
+import { updateProfile } from '../../store/action/action';
 
 const AddProfile = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   const [imgUrl, setImgURL] = useState('')
+  const [imgData, setImgData] = useState('')
 
   const getMenu = async () => {
     try {
       launchImageLibrary({ mediaType: 'photo' }, response => {
         if (response?.assets?.length && response?.assets[0]?.uri) {
           setImgURL(response?.assets[0]?.uri)
+          setImgData(response?.assets[0])
           console.log(response, 'response?.assets[0]?.uri')
         }
       });
@@ -68,6 +71,8 @@ const AddProfile = ({ navigation, route }) => {
         <View style={styles.footer}>
           <Button
             title="SAVE"
+            callBack={() => updateProfile(imgData)}
+            // callBack={() => alert('alert')}
             customStyle={styles.loginPrimaryButton(false)}
             titleStyle={styles.loginPrimaryButtonText(false)}
           />

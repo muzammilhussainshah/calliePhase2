@@ -19,9 +19,9 @@ import { styles } from './styles';
 
 const Signup = ({ navigation }) => {
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState('muzammil');
+  const [lastName, setLastName] = useState('shah');
+  const [email, setEmail] = useState('mynameismuzammilhussainshah@gmail.com');
   const [error, setError] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
 

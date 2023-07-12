@@ -37,12 +37,12 @@ const VerifyEmail = ({ navigation, route }) => {
 
   const [timer, setTimer] = useState(30);
   useEffect(() => {
-console.log("verify")
+    console.log("verify")
     const getUserDataAsync = async (data) => {
       try {
         setLoading(true)
         let data = await AsyncStorage.getItem('currentUserData');
-        console.log("verifyname"+JSON.stringify(data))
+        console.log("verifyname" + JSON.stringify(data))
         if (JSON.parse(data) !== null) setGetUserData(JSON.parse(data))
         else await SignOut()
         setLoading(false)
@@ -53,11 +53,11 @@ console.log("verify")
         // Error saving data
       }
     }
-    
+
     getUserDataAsync()
   }, [])
   useEffect(() => {
-   // console.log("verifytimer")
+    // console.log("verifytimer")
     if (timer > 0) {
       const countdown = setInterval(() => {
         setTimer(prevTimer => prevTimer - 1);
@@ -66,115 +66,113 @@ console.log("verify")
     }
 
   }, [timer]);
-    
-    function verifiedUserSaveInDb() {
-      const currentUser = auth().currentUser;
-      const userId = currentUser.uid
-      const email = currentUser.email
 
-      const data = {
-        email: email,
-        firstName:getUserData?.firstName,
-        lastName:getUserData?.lastName,
-        isemailVerified: true,
-      };
+  function verifiedUserSaveInDb() {
+    const currentUser = auth().currentUser;
+    const userId = currentUser.uid
+    const email = currentUser.email
 
-      if (userId) {
-        // Check if the document already exists
-        db.collection('users')
-          .doc(userId)
-          .get()
-          .then((documentSnapshot) => {
-            if (documentSnapshot.exists) {
-              // Document already exists, do not add new data
-              console.log('Document already exists.');
-            } else {
-              // Document doesn't exist, add new data
+    const data = {
+      email: email,
+      firstName: getUserData?.firstName,
+      lastName: getUserData?.lastName,
+      isemailVerified: true,
+    };
+
+    if (userId) {
+      // Check if the document already exists
+      db.collection('users')
+        .doc(userId)
+        .get()
+        .then((documentSnapshot) => {
+          if (documentSnapshot.exists) {
+            // Document already exists, do not add new data
+            console.log('Document already exists.');
+          } else {
+            // Document doesn't exist, add new data
 
 
-              db.collection('users')
-                .doc(userId)
-                .set(data)
-                .then(() => {
-                  console.log('Document added successfully.');
-                })
-                .catch((error) => {
-                  console.error('Error adding document: ', error);
-                });
-            }
-          })
-          .catch((error) => {
-            console.error('Error getting document: ', error);
-          });
-      } else {
-        console.error('User is not authenticated.');
-      }
-
+            db.collection('users')
+              .doc(userId)
+              .set(data)
+              .then(() => {
+                console.log('Document added successfully.');
+              })
+              .catch((error) => {
+                console.error('Error adding document: ', error);
+              });
+          }
+        })
+        .catch((error) => {
+          console.error('Error getting document: ', error);
+        });
+    } else {
+      console.error('User is not authenticated.');
     }
 
-    const SignOut = async () => {
-      try {
-        setLoading(true)
+  }
+
+  const SignOut = async () => {
+    try {
+      setLoading(true)
       dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
-     await AsyncStorage.removeItem("currentUserData");
+      await AsyncStorage.removeItem("currentUserData");
       await auth().signOut()
       setLoading(false)
       console.log("signout done")
-     // navigation.replace('Welcome')
+      // navigation.replace('Welcome')
       navigation.navigate('Welcome')
     } catch (error) {
       Alert.alert(error)
-      console.log("eroor"+error.message)
+      console.log("eroor" + error.message)
       navigation.navigate('Welcome')
       // Error saving data
     }
-    }
+  }
   const handleSignIn = async ({ email, password }) => {
-   //  await auth().signOut()
+    //  await auth().signOut()
 
     setLoading(true)
-     console.log("ddddd")
-// `currentUser` is synchronous since FirebaseAuth rework
+    console.log("ddddd")
+    // `currentUser` is synchronous since FirebaseAuth rework
     //var user =  auth().currentUser;
     // await auth().currentUser.reload();
-// `currentUser` is synchronous since FirebaseAuth rework
-     //  let user =  auth().currentUser;
+    // `currentUser` is synchronous since FirebaseAuth rework
+    //  let user =  auth().currentUser;
 
-//      let user =  auth().currentUser;
-//       user?.reload().then(() => {
-//        // Signed in
-//        let user2 =  auth().currentUser;
-      //  alert("verifyemail"+user?.email + user?.emailVerified)
-//      })
-//         if (!!user && !user?.emailVerified) {
-//             //interval = setInterval(() => {
-//             user?.reload().then();
-//            // }, 3000);
-//         }
+    //      let user =  auth().currentUser;
+    //       user?.reload().then(() => {
+    //        // Signed in
+    //        let user2 =  auth().currentUser;
+    //  alert("verifyemail"+user?.email + user?.emailVerified)
+    //      })
+    //         if (!!user && !user?.emailVerified) {
+    //             //interval = setInterval(() => {
+    //             user?.reload().then();
+    //            // }, 3000);
+    //         }
     //  alert("verifyemail"+user.email + user.emailVerified)
     try {
-   const signInSuccess = await auth().signInWithEmailAndPassword(
-     email ? email : getUserData.email,
-     password ? password : getUserData.password
-   );
-   console.log(signInSuccess.user.emailVerified, 'signInSuccess', getUserData)
+      const signInSuccess = await auth().signInWithEmailAndPassword(
+        email ? email : getUserData.email,
+        password ? password : getUserData.password
+      );
+      console.log(signInSuccess.user.emailVerified, 'signInSuccess', getUserData)
 
-   if (signInSuccess.user.emailVerified)
-   {
-       verifiedUserSaveInDb() 
-       Navigate(navigation, 'AddProfile');
+      if (signInSuccess.user.emailVerified) {
+        verifiedUserSaveInDb()
+        Navigate(navigation, 'AddProfile');
 
-   }
-   else if (!email && !password) Alert.alert("Email not verified",'You have not verified your email. Check your inbox for a verification link or click Resend Email');
-    setLoading(false)
-  }
-  catch(error)
-  {
-    setLoading(false)
-    Alert.alert(error.message)
-    await signOut()
-    
-  }
+      }
+      else if (!email && !password) Alert.alert("Email not verified", 'You have not verified your email. Check your inbox for a verification link or click Resend Email');
+      setLoading(false)
+    }
+    catch (error) {
+      setLoading(false)
+      Alert.alert(error.message)
+      await signOut()
+
+    }
   };
 
   const handleResendEmail = async () => {
@@ -221,69 +219,69 @@ console.log("verify")
   };
   return (
     loading ?
-    <View style={styles.container}>
-    <ActivityIndicator size="large" color="#fff" />
-    </View>
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#fff" />
+      </View>
       :
-    <SafeAreaView style={styles.container}>
-      <View style={styles.body}>
-        <Text style={styles.inputTitle}>{`Check your ${getUserData?.email} email.`}</Text>
-        
+      <SafeAreaView style={styles.container}>
+        <View style={styles.body}>
+          <Text style={styles.inputTitle}>{`Check your ${getUserData?.email} email.`}</Text>
 
-        <View style={{ marginVertical: RFPercentage(3) }}>
-          <Text style={styles.description}>
-            We just sent a verification link to
-            <Text style={{ fontWeight: 'bold', color: 'white' }}>{` ${getUserData?.email}.`}</Text>
-            It may take a moment to arrive.
-          </Text>
-        </View>
-        <TouchableOpacity onPress={handleEditEmail}>
-          <Text style={{ fontWeight: 'bold', color: 'white', textAlign: 'center', marginBottom: '10%' }}>edit email address</Text>
-        </TouchableOpacity>
-        <Text style={{ fontWeight: 'bold', color: 'white', textAlign: 'center', marginBottom: '10%' }}>If you have verified your email then click "Continue" below</Text>
-        <Button
-          title={`Continue`}
-          callBack={handleSignIn}
-          customStyle={styles.loginPrimaryButton(false)}
-          titleStyle={styles.loginPrimaryButtonText(false)}
-        />
-      </View>
 
-      <View style={styles.resendContainer}>
-        <TouchableOpacity
-          onPress={handleResendEmail}
-          disabled={timer > 0}
-          style={timer > 0 ? styles.disabledButton : null}
-        >
-          <Text style={styles.editEmailButton}>
-            {timer > 0 ? `Resend Email (${timer}s)` : 'Resend Email'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <Modal
-        visible={modalVisible}
-        animationType="slide"
-        transparent={true}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.modalContainer}>
-            <View style={styles.modalContent}>
-              <Text style={styles.modalTitle}>Edit Email Address</Text>
-              <TextInput
-                style={styles.input}
-                placeholder="Enter new email"
-                value={newEmail}
-                onChangeText={text => setNewEmail(text)}
-              />
-              <TouchableOpacity style={styles.saveButton} onPress={handleSaveEmail}>
-                <Text style={styles.saveButtonText}>Verify New Email</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={{ marginVertical: RFPercentage(3) }}>
+            <Text style={styles.description}>
+              We just sent a verification link to
+              <Text style={{ fontWeight: 'bold', color: 'white' }}>{` ${getUserData?.email}.`}</Text>
+              It may take a moment to arrive.
+            </Text>
           </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </SafeAreaView>
+          <TouchableOpacity onPress={handleEditEmail}>
+            <Text style={{ fontWeight: 'bold', color: 'white', textAlign: 'center', marginBottom: '10%' }}>edit email address</Text>
+          </TouchableOpacity>
+          <Text style={{ fontWeight: 'bold', color: 'white', textAlign: 'center', marginBottom: '10%' }}>If you have verified your email then click "Continue" below</Text>
+          <Button
+            title={`Continue`}
+            callBack={handleSignIn}
+            customStyle={styles.loginPrimaryButton(false)}
+            titleStyle={styles.loginPrimaryButtonText(false)}
+          />
+        </View>
+
+        <View style={styles.resendContainer}>
+          <TouchableOpacity
+            onPress={handleResendEmail}
+            disabled={timer > 0}
+            style={timer > 0 ? styles.disabledButton : null}
+          >
+            <Text style={styles.editEmailButton}>
+              {timer > 0 ? `Resend Email (${timer}s)` : 'Resend Email'}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <Modal
+          visible={modalVisible}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <Text style={styles.modalTitle}>Edit Email Address</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Enter new email"
+                  value={newEmail}
+                  onChangeText={text => setNewEmail(text)}
+                />
+                <TouchableOpacity style={styles.saveButton} onPress={handleSaveEmail}>
+                  <Text style={styles.saveButtonText}>Verify New Email</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </SafeAreaView>
   );
 };
 

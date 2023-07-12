@@ -2,7 +2,8 @@ import ActionTypes from '../constant/constant';
 
 const INITIAL_STATE = {
 
-    currentUser:null,
+    currentUser: null,
+    loader: null,
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -11,6 +12,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 currentUser: action.payload
+            })
+        case ActionTypes.LOADER:
+            return ({
+                ...state,
+                loader: action.payload
             })
 
         default:

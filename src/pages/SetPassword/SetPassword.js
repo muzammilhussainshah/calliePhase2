@@ -28,8 +28,8 @@ const SetPassword = ({ navigation, route }) => {
   let userInfo = route?.params;
   let comeFromForget = route?.params?.comeFromForget;
   console.log(comeFromForget, 'routerouteroute')
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [password, setPassword] = useState('12345678');
+  const [confirmPassword, setConfirmPassword] = useState('12345678');
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState('');
@@ -65,7 +65,6 @@ const SetPassword = ({ navigation, route }) => {
       userData.confirmPassword = confirmPassword
       userData.password = password
       try {
-        console.log(userData, 'userData')
         const userCredential = await auth().createUserWithEmailAndPassword(userData.email, userData.password);
         await userCredential.user.sendEmailVerification();
         await addUserDataAsync(userData)
@@ -131,7 +130,7 @@ const SetPassword = ({ navigation, route }) => {
 
           {error ? (Alert.alert('Password Invalid', error, [{ text: 'OK', onPress: () => setError('') },])) : null}
 
-          <Text style={[styles.description, { width: "60%" ,marginBottom:RFPercentage(1)}]}>{`password must be at least 8 characters.`}</Text>
+          <Text style={[styles.description, { width: "60%", marginBottom: RFPercentage(1) }]}>{`password must be at least 8 characters.`}</Text>
 
           <Button
             title="Save"

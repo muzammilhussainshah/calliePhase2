@@ -8,7 +8,7 @@
 
 
 import React from 'react';
-import { LogBox, StatusBar,Alert, } from 'react-native';
+import { LogBox, StatusBar, Alert, } from 'react-native';
 
 import auth from '@react-native-firebase/auth';
 import { SafeAreaProvider, } from 'react-native-safe-area-context';
@@ -37,31 +37,31 @@ function App() {
   }, [])
   React.useEffect(() => {
     console.log("app.js")
-        const getUserDataAsync = async (data) => {
-          try {
-            let data = await AsyncStorage.getItem('currentUserData');
-            console.log("verifyname"+JSON.stringify(data))
-            if (JSON.parse(data) !== null) setGetUserData(JSON.parse(data))
-          } catch (error) {
-            console.log(error, 'error')
-            Alert.alert(error)
-            // Error saving data
-          }
-        }
-        
-        getUserDataAsync()
-      }, [])
+    const getUserDataAsync = async (data) => {
+      try {
+        let data = await AsyncStorage.getItem('currentUserData');
+        console.log("verifyname" + JSON.stringify(data))
+        if (JSON.parse(data) !== null) setGetUserData(JSON.parse(data))
+      } catch (error) {
+        console.log(error, 'error')
+        Alert.alert(error)
+        // Error saving data
+      }
+    }
+
+    getUserDataAsync()
+  }, [])
 
   function onAuthStateChanged(user) {
-   
-  // console.log(currentUser+'APPJS')
-   // alert("sign appn" + user?.emailVerified)
+
+    // console.log(currentUser+'APPJS')
+    // alert("sign appn" + user?.emailVerified)
     setUser(user);
   }
   const currentUser = auth().currentUser;
-  console.log(currentUser+'APPJS ssss')
+  // console.log(currentUser + 'APPJS ssss', getUserData)
   if (user?.emailVerified && getUserData) {
-console.log("AppNavigation")
+    console.log(user, "AppNavigation", getUserData)
 
 
     return (
