@@ -31,7 +31,6 @@ const AddProfile = ({ navigation, route }) => {
         if (response?.assets?.length && response?.assets[0]?.uri) {
           setImgURL(response?.assets[0]?.uri)
           setImgData(response?.assets[0])
-          console.log(response, 'response?.assets[0]?.uri')
         }
       });
     } catch (err) {

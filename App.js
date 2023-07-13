@@ -38,14 +38,11 @@ function App() {
 
   }, [])
   React.useEffect(async () => {
-    console.log("app.js")
     const getUserDataAsync = async (data) => {
       try {
         let data = await AsyncStorage.getItem('currentUserData');
-        console.log("verifyname" + JSON.stringify(data))
         if (JSON.parse(data) !== null) setGetUserData(JSON.parse(data))
       } catch (error) {
-        console.log(error, 'error')
         Alert.alert(error)
         // Error saving data
       }
@@ -53,7 +50,6 @@ function App() {
 
     const getUserDataFromDb = async () => {
       let currentUserDb = await getCurrentUserData();
-      console.log(currentUserDb, 'currentdasdasUserDb')
       if (currentUserDb) setCurrentUser(currentUserDb)
     }
     getUserDataFromDb()
@@ -66,8 +62,6 @@ function App() {
   }
   if (currentUser?.isemailVerified == true && currentUser?.photoURL?.length > 0) {
     console.log(user, "AppNavigation", getUserData)
-
-
     return (
       <Provider store={store}>
         <StatusBar

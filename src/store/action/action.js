@@ -1,14 +1,8 @@
 import ActionTypes from "../constant/constant";
-// import DeviceInfo from 'react-native-device-info';
-// import firestore from '@react-native-firebase/firestore';
-// import remoteConfig from '@react-native-firebase/remote-config';
 import { firebase } from '@react-native-firebase/auth';
-import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
-// import { CommonActions } from '@react-navigation/native';
-
-// const deviceId = DeviceInfo.getUniqueId();
 import { Share } from "react-native";
+
 const db = firebase.firestore();
 
 export const Navigate = (navigation, screenName, prop) => {
@@ -43,7 +37,6 @@ export const onShare = async (shareMsg) => {
 export const getCurrentUserData = async () => {
     try {
         const user = await firebase.auth().currentUser
-
         if (user !== null) {
             let response = await db.collection('users').doc(user.uid).get()
             return response.data()
@@ -51,7 +44,6 @@ export const getCurrentUserData = async () => {
     } catch (error) {
         alert(error.message)
     }
-
 }
 
 export const updateProfile = async (photoUrlData, navigation, setLoading) => {
@@ -126,8 +118,6 @@ export async function verifiedUserSaveInDb(getUserData) {
                     console.log('Document already exists.');
                 } else {
                     // Document doesn't exist, add new data
-
-
                     db.collection('users')
                         .doc(userId)
                         .set(data)

@@ -20,7 +20,7 @@ import ActionTypes from '../../store/constant/constant';
 import Button from '../../components/Button';
 import { styles } from './styles';
 import { ActivityIndicator } from "react-native";
-import { Navigate, verifiedUserSaveInDb } from '../../store/action/action';
+import { $test, Navigate, verifiedUserSaveInDb } from '../../store/action/action';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
@@ -36,12 +36,10 @@ const VerifyEmail = ({ navigation, route }) => {
 
   const [timer, setTimer] = useState(30);
   useEffect(() => {
-    console.log("verify")
     const getUserDataAsync = async (data) => {
       try {
         setLoading(true)
         let data = await AsyncStorage.getItem('currentUserData');
-        console.log("verifyname" + JSON.stringify(data))
         if (JSON.parse(data) !== null) setGetUserData(JSON.parse(data))
         else await SignOut()
         setLoading(false)
@@ -92,7 +90,6 @@ const VerifyEmail = ({ navigation, route }) => {
         email ? email : getUserData.email,
         password ? password : getUserData.password
       );
-      console.log(signInSuccess.user.emailVerified, 'signInSuccess', getUserData)
 
       if (signInSuccess.user.emailVerified) {
         await verifiedUserSaveInDb(getUserData)
