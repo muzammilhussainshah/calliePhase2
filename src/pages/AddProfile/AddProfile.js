@@ -14,6 +14,7 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 import { launchImageLibrary } from 'react-native-image-picker';
+import auth from '@react-native-firebase/auth';
 
 import Button from '../../components/Button';
 import Colors from '../../styles/Colors';
@@ -68,6 +69,7 @@ const AddProfile = ({ navigation, route }) => {
             <Button
               title="SAVE"
               callBack={async () => {
+                // await auth().signOut()
                 await setLoading(true)
                 await updateProfile(imgData, navigation, setLoading)
               }}

@@ -20,11 +20,9 @@ import ActionTypes from '../../store/constant/constant';
 import Button from '../../components/Button';
 import { styles } from './styles';
 import { ActivityIndicator } from "react-native";
-import { $test, Navigate, verifiedUserSaveInDb } from '../../store/action/action';
-import { useDispatch, useSelector } from 'react-redux';
+import { Navigate, verifiedUserSaveInDb } from '../../store/action/action';
+import { useDispatch, } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import firestore from '@react-native-firebase/firestore';
-const db = firestore();
 
 const VerifyEmail = ({ navigation, route }) => {
 
@@ -40,8 +38,9 @@ const VerifyEmail = ({ navigation, route }) => {
       try {
         setLoading(true)
         let data = await AsyncStorage.getItem('currentUserData');
+        console.log(data, 'datadata')
         if (JSON.parse(data) !== null) setGetUserData(JSON.parse(data))
-        else await SignOut()
+        // else await SignOut()
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -173,6 +172,7 @@ const VerifyEmail = ({ navigation, route }) => {
           <Text style={{ fontWeight: 'bold', color: 'white', textAlign: 'center', marginBottom: '10%' }}>If you have verified your email then click "Continue" below</Text>
           <Button
             title={`Continue`}
+            // callBack={() => auth().signOut()}
             callBack={handleSignIn}
             customStyle={styles.loginPrimaryButton(false)}
             titleStyle={styles.loginPrimaryButtonText(false)}

@@ -1,5 +1,7 @@
 // @app
-import React, { useEffect } from 'react';
+import React, {
+  useEffect
+} from 'react';
 import {
   Text,
   Image,
@@ -18,15 +20,9 @@ const Welcome = ({ navigation }) => {
   const currentUser = useSelector((state) => state.root.currentUser)
 
   useEffect(() => {
-    // console.log("welcomescreen" + currentUser)
     const getUserDataAsync = async (data) => {
       try {
-        // let data = await AsyncStorage.getItem('currentUserData');
         // let currentUserDb = await getCurrentUserData();
-        // console.log(currentUserDb, 'data2data2data2data2')
-        // console.log(currentUser, "welcome" + JSON.stringify(data))
-        // console.log(currentUser , currentUser?._user?.emailVerified == false ,'asadsda', typeof currentUser?._user?.photoURL ,currentUser?._user?.photoURL==null )
-        // console.log(currentUser, currentUser?._user?.emailVerified == false, currentUser?._user?.photoURL == null, 'asddas', JSON.parse(data))
         // if (currentUserDb) {
         //   if (currentUserDb.isemailVerified == false) {
 
@@ -38,6 +34,7 @@ const Welcome = ({ navigation }) => {
         //   }
         // }
         // else
+        console.log(currentUser,'currentUser')
         if (currentUser) {
           if (currentUser && currentUser?._user?.emailVerified == false) { navigation.replace('VerifyEmail') }
           else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL == null) { navigation.replace('AddProfile') }

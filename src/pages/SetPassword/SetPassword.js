@@ -67,6 +67,7 @@ const SetPassword = ({ navigation, route }) => {
       try {
         const userCredential = await auth().createUserWithEmailAndPassword(userData.email, userData.password);
         await userCredential.user.sendEmailVerification();
+        console.log(userData,'userData')
         await addUserDataAsync(userData)
         setLoading(false)
         Navigate(navigation, 'VerifyEmail', userData)

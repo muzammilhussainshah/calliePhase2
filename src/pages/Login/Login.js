@@ -21,16 +21,29 @@ import Button from '../../components/Button';
 import Colors from '../../styles/Colors';
 import { Navigate } from '../../store/action/action';
 import { styles } from '../SetPassword/styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
 
-  const [email, setemail] = useState('samana.tahir@gmail.com');
+  const [email, setemail] = useState('mynameismuzammilhussainshah@gmail.com');
   const [confirmPassword, setConfirmPassword] = useState('12345678');
   const [showPassword, setShowPassword] = useState(false);
   const [check, setcheck] = useState(false);
   const [error, setError] = useState('');
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
+
+  const addUserDataAsync = async (data) => {
+    try {
+      await AsyncStorage.setItem(
+        'currentUserData',
+        JSON.stringify(data),
+      );
+    } catch (error) {
+      Alert.alert(error)
+      // Error saving data
+    }
+  }
 
   const handleSave = async () => {
     if (confirmPassword.length < 8) {
@@ -40,11 +53,26 @@ const Login = ({ navigation }) => {
       setError('');
       try {
         let user = await auth().signInWithEmailAndPassword(email, confirmPassword);
-        if (user.user.emailVerified) Navigate(navigation, 'Home',)
+        if (user?.user?.emailVerified) Navigate(navigation, 'Home',)
         else if (user) {
+          const data = {}
+          data.confirmPassword = confirmPassword;
+          data.password = confirmPassword;
+          // data.isemailVerified = true,
+            data.email = email
+          await addUserDataAsync(data)
           await auth().currentUser.sendEmailVerification();
-          alert(`Link has been sent to ${user.user.email} please verify first before login`);
+          Navigate(navigation, 'VerifyEmail')
+
+          // console.log(user, 'user')
+          // await addUserDataAsync(userData)
+          // navigation.navigate('VerifyEmail')
+          // alert(`Link has been sent to ${user.user.email} please verify first before login`);
         }
+        // else{
+        //   // Navigate(navigation, 'VerifyEmail',)
+
+        // }
       } catch (error) {
         Alert.alert('Email Required', error.message, [{ text: 'OK', onPress: () => setError('') },])
       }

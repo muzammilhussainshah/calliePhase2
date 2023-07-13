@@ -96,15 +96,16 @@ export async function addDataToUserDb(userId, data) {
         });
 }
 export async function verifiedUserSaveInDb(getUserData) {
+    console.log(getUserData, 'getUserData')
     const currentUser = firebase.auth().currentUser
     const userId = currentUser.uid
     const email = currentUser.email
     const data = {
         email: email,
-        firstName: getUserData?.firstName,
-        lastName: getUserData?.lastName,
         isemailVerified: true,
     };
+    if (getUserData?.firstName) data.firstName = getUserData?.firstName;
+    if (getUserData?.lastName) data.lastName = getUserData?.lastName;
 
     if (userId) {
         // Check if the document already exists
