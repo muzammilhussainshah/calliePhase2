@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import store from './src/store';
 
 import { AppNavigation, Navigation } from './src/router/Tab';
+import { getCurrentUserData } from './src/store/action/action';
 
 
 // ignore warnings
@@ -28,6 +29,7 @@ LogBox.ignoreAllLogs();
 
 function App() {
   const [user, setUser] = React.useState();
+  const [currentUser, setCurrentUser] = React.useState();
   const [getUserData, setGetUserData] = React.useState();
   React.useEffect(() => {
 
@@ -35,7 +37,7 @@ function App() {
     return () => { subscriber() }
 
   }, [])
-  React.useEffect(() => {
+  React.useEffect(async () => {
     console.log("app.js")
     const getUserDataAsync = async (data) => {
       try {
@@ -49,18 +51,20 @@ function App() {
       }
     }
 
+    const getUserDataFromDb = async () => {
+      let currentUserDb = await getCurrentUserData();
+      console.log(currentUserDb, 'currentdasdasUserDb')
+      if (currentUserDb) setCurrentUser(currentUserDb)
+    }
+    getUserDataFromDb()
     getUserDataAsync()
   }, [])
 
   function onAuthStateChanged(user) {
 
-    // console.log(currentUser+'APPJS')
-    // alert("sign appn" + user?.emailVerified)
     setUser(user);
   }
-  const currentUser = auth().currentUser;
-  // console.log(currentUser + 'APPJS ssss', getUserData)
-  if (user?.emailVerified && getUserData) {
+  if (currentUser?.isemailVerified == true && currentUser?.photoURL?.length > 0) {
     console.log(user, "AppNavigation", getUserData)
 
 

@@ -18,16 +18,13 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import Button from '../../components/Button';
 import Colors from '../../styles/Colors';
 import { styles } from './styles';
-import { getCurrentUserData, updateProfile } from '../../store/action/action';
+import { updateProfile } from '../../store/action/action';
 
 const AddProfile = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   const [imgUrl, setImgURL] = useState('')
   const [imgData, setImgData] = useState('')
-  // useEffect(() => {
-  //   getCurrentUserData()
-  // }, [])
   const getMenu = async () => {
     try {
       launchImageLibrary({ mediaType: 'photo' }, response => {
@@ -43,13 +40,6 @@ const AddProfile = ({ navigation, route }) => {
   };
 
   const renderContent = () => {
-    // if (loading) {
-    //   return (
-    //     <View style={styles.container}>
-    //       <ActivityIndicator size="large" color="#fff" />
-    //     </View>
-    //   );
-    // }
 
     return (
       <SafeAreaView style={styles.container}>
@@ -80,9 +70,8 @@ const AddProfile = ({ navigation, route }) => {
               title="SAVE"
               callBack={async () => {
                 await setLoading(true)
-                await updateProfile(imgData, navigation,setLoading)
+                await updateProfile(imgData, navigation, setLoading)
               }}
-              // callBack={() => alert('alert')}
               customStyle={styles.loginPrimaryButton(false)}
               titleStyle={styles.loginPrimaryButtonText(false)}
             />

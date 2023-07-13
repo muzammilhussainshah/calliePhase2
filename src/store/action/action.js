@@ -40,32 +40,30 @@ export const onShare = async (shareMsg) => {
         Alert.alert(error.message);
     }
 };
-// export const getCurrentUserData = async () => {
-//     try {
-//         const user = await firebase.auth().currentUser
-//         let response = await db.collection('users').doc(user.uid).get()
-//         console.log(response.data(), 'response')
-//     } catch (error) {
-//         alert(error.message)
-//     }
+export const getCurrentUserData = async () => {
+    try {
+        const user = await firebase.auth().currentUser
 
-// }
+        if (user !== null) {
+            let response = await db.collection('users').doc(user.uid).get()
+            return response.data()
+        }
+    } catch (error) {
+        alert(error.message)
+    }
+
+}
 
 export const updateProfile = async (photoUrlData, navigation, setLoading) => {
     try {
-        //         // dispatch({ type: ActionTypes.LOADER, payload: true })
         const response = await fetch(photoUrlData?.uri);
         const blob = await response.blob();
-
         // Generate a unique filename for the profile picture
         const fileName = `profilePictures/${firebase.auth().currentUser.uid}/${Date.now()}`;
         const user = firebase.auth().currentUser
-        console.log(user, 'user')
         // Upload the image to Firebase Storage
         let reference = storage().ref()
-
         const uploadTask = reference.child(fileName).put(blob);
-
         // Listen to the upload progress
         uploadTask.on('state_changed',
             null,
@@ -77,7 +75,12 @@ export const updateProfile = async (photoUrlData, navigation, setLoading) => {
                 // Update the user's profile picture URL in Firebase Authentication
                 uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
                     // console.log(downloadURL, 'downloadURL')
+                    let userdbData = await getCurrentUserData()
+                    let clone = await JSON.parse(JSON.stringify(userdbData))
+                    clone.photoURL = downloadURL
+                    addDataToUserDb(user.uid, clone)
                     await firebase.auth().currentUser.updateProfile({ photoURL: downloadURL, });
+
                     setLoading(false)
                     Navigate(navigation, 'AddCurrentCourse')
                 });
@@ -86,17 +89,23 @@ export const updateProfile = async (photoUrlData, navigation, setLoading) => {
     } catch (error) {
         setLoading(false)
         alert(error.message)
-        console.log(error, 'result')
-
-        // Alert.alert(error.message);
     }
 };
 
+export async function addDataToUserDb(userId, data) {
+    db.collection('users')
+        .doc(userId)
+        .set(data)
+        .then(() => {
+            console.log('addDataToUserDb successfully.');
+        })
+        .catch((error) => {
+            console.error('Error adding document: ', error);
+        });
+}
 export async function verifiedUserSaveInDb(getUserData) {
     const currentUser = firebase.auth().currentUser
-
     const userId = currentUser.uid
-    // const currentUser = auth().currentUser
     const email = currentUser.email
     const data = {
         email: email,
@@ -138,21 +147,3 @@ export async function verifiedUserSaveInDb(getUserData) {
     }
 
 }
-
-// export const SignOut = async () => {
-//     try {
-//         setLoading(true)
-//         dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
-//         await AsyncStorage.removeItem("currentUserData");
-//         await auth().signOut()
-//         setLoading(false)
-//         console.log("signout done")
-//         // navigation.replace('Welcome')
-//         navigation.navigate('Welcome')
-//     } catch (error) {
-//         Alert.alert(error)
-//         console.log("eroor" + error.message)
-//         navigation.navigate('Welcome')
-//         // Error saving data
-//     }
-// }

@@ -5,7 +5,6 @@ import React, {
 import {
   View,
   Text, Keyboard,
-  //AsyncStorage,
   TouchableOpacity,
   Alert,
   Modal,
@@ -67,50 +66,6 @@ const VerifyEmail = ({ navigation, route }) => {
 
   }, [timer]);
 
-  // function verifiedUserSaveInDb() {
-  //   const currentUser = auth().currentUser;
-  //   const userId = currentUser.uid
-  //   const email = currentUser.email
-
-  //   const data = {
-  //     email: email,
-  //     firstName: getUserData?.firstName,
-  //     lastName: getUserData?.lastName,
-  //     isemailVerified: true,
-  //   };
-
-  //   if (userId) {
-  //     // Check if the document already exists
-  //     db.collection('users')
-  //       .doc(userId)
-  //       .get()
-  //       .then((documentSnapshot) => {
-  //         if (documentSnapshot.exists) {
-  //           // Document already exists, do not add new data
-  //           console.log('Document already exists.');
-  //         } else {
-  //           // Document doesn't exist, add new data
-
-
-  //           db.collection('users')
-  //             .doc(userId)
-  //             .set(data)
-  //             .then(() => {
-  //               console.log('Document added successfully.');
-  //             })
-  //             .catch((error) => {
-  //               console.error('Error adding document: ', error);
-  //             });
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error('Error getting document: ', error);
-  //       });
-  //   } else {
-  //     console.error('User is not authenticated.');
-  //   }
-
-  // }
 
   const SignOut = async () => {
     try {
@@ -130,27 +85,8 @@ const VerifyEmail = ({ navigation, route }) => {
     }
   }
   const handleSignIn = async ({ email, password }) => {
-    //  await auth().signOut()
 
     setLoading(true)
-    // `currentUser` is synchronous since FirebaseAuth rework
-    //var user =  auth().currentUser;
-    // await auth().currentUser.reload();
-    // `currentUser` is synchronous since FirebaseAuth rework
-    //  let user =  auth().currentUser;
-
-    //      let user =  auth().currentUser;
-    //       user?.reload().then(() => {
-    //        // Signed in
-    //        let user2 =  auth().currentUser;
-    //  alert("verifyemail"+user?.email + user?.emailVerified)
-    //      })
-    //         if (!!user && !user?.emailVerified) {
-    //             //interval = setInterval(() => {
-    //             user?.reload().then();
-    //            // }, 3000);
-    //         }
-    //  alert("verifyemail"+user.email + user.emailVerified)
     try {
       const signInSuccess = await auth().signInWithEmailAndPassword(
         email ? email : getUserData.email,
@@ -159,14 +95,6 @@ const VerifyEmail = ({ navigation, route }) => {
       console.log(signInSuccess.user.emailVerified, 'signInSuccess', getUserData)
 
       if (signInSuccess.user.emailVerified) {
-        // const currentUser = auth().currentUser
-        // const email = currentUser.email
-        // const data = {
-        //   email: email,
-        //   firstName: getUserData?.firstName,
-        //   lastName: getUserData?.lastName,
-        //   isemailVerified: true,
-        // };
         await verifiedUserSaveInDb(getUserData)
         Navigate(navigation, 'AddProfile');
 
