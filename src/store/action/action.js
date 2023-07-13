@@ -3,11 +3,13 @@ import ActionTypes from "../constant/constant";
 // import firestore from '@react-native-firebase/firestore';
 // import remoteConfig from '@react-native-firebase/remote-config';
 import { firebase } from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 // import { CommonActions } from '@react-navigation/native';
 
 // const deviceId = DeviceInfo.getUniqueId();
 import { Share } from "react-native";
+const db = firebase.firestore();
 
 export const Navigate = (navigation, screenName, prop) => {
     if (screenName == "pop") navigation.pop()
@@ -38,112 +40,119 @@ export const onShare = async (shareMsg) => {
         Alert.alert(error.message);
     }
 };
+// export const getCurrentUserData = async () => {
+//     try {
+//         const user = await firebase.auth().currentUser
+//         let response = await db.collection('users').doc(user.uid).get()
+//         console.log(response.data(), 'response')
+//     } catch (error) {
+//         alert(error.message)
+//     }
 
+// }
 
+export const updateProfile = async (photoUrlData, navigation, setLoading) => {
+    try {
+        //         // dispatch({ type: ActionTypes.LOADER, payload: true })
+        const response = await fetch(photoUrlData?.uri);
+        const blob = await response.blob();
 
-export function updateProfile(photoUrlData,) {
-    return dispatch => {
-        dispatch({ type: ActionTypes.LOADER, payload: true })
-
-        console.log(profileData, 'update profile dat')
+        // Generate a unique filename for the profile picture
+        const fileName = `profilePictures/${firebase.auth().currentUser.uid}/${Date.now()}`;
         const user = firebase.auth().currentUser
+        console.log(user, 'user')
+        // Upload the image to Firebase Storage
+        let reference = storage().ref()
 
-        const path = photoUrlData?.uri
-        const filename = photoUrlData?.fileName
-        let profileObj = {}
+        const uploadTask = reference.child(fileName).put(blob);
 
-        if (photoUrlData) {
-            uploadImageToStorage(path, filename).then((downloadUrl) => {
-                console.log(downloadUrl, 'downloadUrl')
-                // if (downloadUrl) profileObj.photoURL = downloadUrl
-                // if (profileData?.firstName?.length > 0) profileObj.firstName = profileData?.firstName
-                // if (profileData?.lastName?.length > 0) profileObj.lastName = profileData?.lastName
-                // if (profileData?.date) profileObj.dob = new Date(profileData?.date).valueOf()
-                // if (profileData?.TOSvalue?.length > 0) profileObj.TOSvalue = profileData?.TOSvalue
-                // if (profileData?.LOSvalue?.length > 0) profileObj.LOSvalue = profileData.LOSvalue
-                // if (profileData?.selectedLanguages?.length > 0) profileObj.languages = profileData.selectedLanguages
-                // if (profileData?.bio?.length > 0) profileObj.about = profileData.bio
-                // if (profileData?.location?.length > 0) profileObj.location = profileData.location
-                // if (profileData?.firstName.length > 0 && profileData?.lastName?.length > 0) profileObj.displayName = profileData?.firstName + ' ' + profileData?.lastName
+        // Listen to the upload progress
+        uploadTask.on('state_changed',
+            null,
+            (error) => {
+                // Handle any upload error
+                console.error(error);
+            },
+            () => {
+                // Update the user's profile picture URL in Firebase Authentication
+                uploadTask.snapshot.ref.getDownloadURL().then(async (downloadURL) => {
+                    // console.log(downloadURL, 'downloadURL')
+                    await firebase.auth().currentUser.updateProfile({ photoURL: downloadURL, });
+                    setLoading(false)
+                    Navigate(navigation, 'AddCurrentCourse')
+                });
+            }
+        );
+    } catch (error) {
+        setLoading(false)
+        alert(error.message)
+        console.log(error, 'result')
 
-                // dispatch({ type: ActionTypes.CURRENTUSER, payload: { ...currentUser, ...profileObj } })
-                // console.log(profileObj, 'profileObj')
-                // if (user?.uid) {
-                //     console.log(user?.uid, 'adsdasdas')
-                //     firestore()
-                //         .collection('chums')
-                //         .doc(user?.uid)
-                //         .update(profileObj)
-                //         .then(() => console.log('updated'))
+        // Alert.alert(error.message);
+    }
+};
 
-                // }
-                // dispatch({ type: ActionTypes.LOADER, payload: false })
+export async function verifiedUserSaveInDb(getUserData) {
+    const currentUser = firebase.auth().currentUser
 
-            }).catch((error) => {
-                // dispatch({ type: ActionTypes.LOADER, payload: false })
-                console.log(error, 'downloadUrl')
+    const userId = currentUser.uid
+    // const currentUser = auth().currentUser
+    const email = currentUser.email
+    const data = {
+        email: email,
+        firstName: getUserData?.firstName,
+        lastName: getUserData?.lastName,
+        isemailVerified: true,
+    };
 
+    if (userId) {
+        // Check if the document already exists
+        db.collection('users')
+            .doc(userId)
+            .get()
+            .then((documentSnapshot) => {
+                if (documentSnapshot.exists) {
+                    // Document already exists, do not add new data
+                    setLoading(false)
+                    console.log('Document already exists.');
+                } else {
+                    // Document doesn't exist, add new data
+
+
+                    db.collection('users')
+                        .doc(userId)
+                        .set(data)
+                        .then(() => {
+                            console.log('Document added successfully.');
+                        })
+                        .catch((error) => {
+                            console.error('Error adding document: ', error);
+                        });
+                }
             })
-        } else {
-            // if (profileData?.firstName?.length > 0) profileObj.firstName = profileData?.firstName
-            // if (profileData?.lastName?.length > 0) profileObj.lastName = profileData?.lastName
-                console.log(  'else')
-                // if (profileData?.date) profileObj.dob = new Date(profileData?.date).valueOf()
-            // if (profileData?.TOSvalue?.length > 0) profileObj.TOSvalue = profileData?.TOSvalue
-
-            // if (profileData?.LOSvalue?.length > 0) profileObj.LOSvalue = profileData.LOSvalue
-            // if (profileData?.selectedLanguages?.length > 0) profileObj.languages = profileData.selectedLanguages
-            // if (profileData) profileObj.about = profileData.bio
-            // if (profileData?.location?.length > 0) profileObj.location = profileData.location
-            // if (profileData?.firstName.length > 0 && profileData?.lastName?.length > 0) profileObj.displayName = profileData?.firstName + ' ' + profileData?.lastName
-
-            // dispatch({ type: ActionTypes.CURRENTUSER, payload: { ...currentUser, ...profileObj } })
-            // console.log(profileObj, 'profileObj')
-            // if (user?.uid) {
-            //     console.log(user?.uid, 'adsdasdas')
-            //     firestore()
-            //         .collection('chums')
-            //         .doc(user?.uid)
-            //         .update(profileObj)
-            //         .then(() => console.log('updated'))
-
-            // }
-            // dispatch({ type: ActionTypes.LOADER, payload: false })
-
-        }
-
-        // let profileObj = {}
-        // if (profileData?.firstName?.length > 0) profileObj.firstName = profileData?.firstName
-        // if (profileData?.lastName?.length > 0) profileObj.lastName = profileData?.lastName
-        // if (profileData?.date) profileObj.dob = new Date(profileData?.date).valueOf()
-        // if (profileData?.TOSvalue?.length > 0) profileObj.TOSvalue = profileData?.TOSvalue
-
-        // if (profileData?.LOSvalue?.length > 0) profileObj.LOSvalue = profileData.LOSvalue
-        // if (profileData?.selectedLanguages?.length > 0) profileObj.languages = profileData.selectedLanguages
-        // if (profileData?.bio?.length > 0) profileObj.about = profileData.bio
-        // if (profileData?.location?.length > 0) profileObj.location = profileData.location
-        // if (profileData?.firstName.length > 0 && profileData?.lastName?.length > 0) profileObj.displayName = profileData?.firstName + ' ' + profileData?.lastName
-
-        // dispatch({ type: ActionTypes.CURRENTUSER, payload: { ...currentUser, ...profileObj } })
-        // console.log(profileObj, 'profileObj')
-        // if (user?.uid) {
-        //     console.log(user?.uid, 'adsdasdas')
-        //     firestore()
-        //         .collection('chums')
-        //         .doc(user?.uid)
-        //         .update(profileObj)
-        //         .then(() => console.log('updated'))
-
-        // }
-
+            .catch((error) => {
+                console.error('Error getting document: ', error);
+            });
+    } else {
+        console.error('User is not authenticated.');
     }
+
 }
 
-const uploadImageToStorage = async (path, name) => {
-    let reference = storage().ref(name);
-    let task = await reference.putFile(path);
-
-    if (task) {
-        return await reference.getDownloadURL()
-    }
-}
+// export const SignOut = async () => {
+//     try {
+//         setLoading(true)
+//         dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
+//         await AsyncStorage.removeItem("currentUserData");
+//         await auth().signOut()
+//         setLoading(false)
+//         console.log("signout done")
+//         // navigation.replace('Welcome')
+//         navigation.navigate('Welcome')
+//     } catch (error) {
+//         Alert.alert(error)
+//         console.log("eroor" + error.message)
+//         navigation.navigate('Welcome')
+//         // Error saving data
+//     }
+// }

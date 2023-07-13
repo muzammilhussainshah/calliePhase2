@@ -21,7 +21,7 @@ import ActionTypes from '../../store/constant/constant';
 import Button from '../../components/Button';
 import { styles } from './styles';
 import { ActivityIndicator } from "react-native";
-import { Navigate } from '../../store/action/action';
+import { Navigate, verifiedUserSaveInDb } from '../../store/action/action';
 import { useDispatch, useSelector } from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import firestore from '@react-native-firebase/firestore';
@@ -67,50 +67,50 @@ const VerifyEmail = ({ navigation, route }) => {
 
   }, [timer]);
 
-  function verifiedUserSaveInDb() {
-    const currentUser = auth().currentUser;
-    const userId = currentUser.uid
-    const email = currentUser.email
+  // function verifiedUserSaveInDb() {
+  //   const currentUser = auth().currentUser;
+  //   const userId = currentUser.uid
+  //   const email = currentUser.email
 
-    const data = {
-      email: email,
-      firstName: getUserData?.firstName,
-      lastName: getUserData?.lastName,
-      isemailVerified: true,
-    };
+  //   const data = {
+  //     email: email,
+  //     firstName: getUserData?.firstName,
+  //     lastName: getUserData?.lastName,
+  //     isemailVerified: true,
+  //   };
 
-    if (userId) {
-      // Check if the document already exists
-      db.collection('users')
-        .doc(userId)
-        .get()
-        .then((documentSnapshot) => {
-          if (documentSnapshot.exists) {
-            // Document already exists, do not add new data
-            console.log('Document already exists.');
-          } else {
-            // Document doesn't exist, add new data
+  //   if (userId) {
+  //     // Check if the document already exists
+  //     db.collection('users')
+  //       .doc(userId)
+  //       .get()
+  //       .then((documentSnapshot) => {
+  //         if (documentSnapshot.exists) {
+  //           // Document already exists, do not add new data
+  //           console.log('Document already exists.');
+  //         } else {
+  //           // Document doesn't exist, add new data
 
 
-            db.collection('users')
-              .doc(userId)
-              .set(data)
-              .then(() => {
-                console.log('Document added successfully.');
-              })
-              .catch((error) => {
-                console.error('Error adding document: ', error);
-              });
-          }
-        })
-        .catch((error) => {
-          console.error('Error getting document: ', error);
-        });
-    } else {
-      console.error('User is not authenticated.');
-    }
+  //           db.collection('users')
+  //             .doc(userId)
+  //             .set(data)
+  //             .then(() => {
+  //               console.log('Document added successfully.');
+  //             })
+  //             .catch((error) => {
+  //               console.error('Error adding document: ', error);
+  //             });
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error('Error getting document: ', error);
+  //       });
+  //   } else {
+  //     console.error('User is not authenticated.');
+  //   }
 
-  }
+  // }
 
   const SignOut = async () => {
     try {
@@ -133,7 +133,6 @@ const VerifyEmail = ({ navigation, route }) => {
     //  await auth().signOut()
 
     setLoading(true)
-    console.log("ddddd")
     // `currentUser` is synchronous since FirebaseAuth rework
     //var user =  auth().currentUser;
     // await auth().currentUser.reload();
@@ -160,7 +159,15 @@ const VerifyEmail = ({ navigation, route }) => {
       console.log(signInSuccess.user.emailVerified, 'signInSuccess', getUserData)
 
       if (signInSuccess.user.emailVerified) {
-        verifiedUserSaveInDb()
+        // const currentUser = auth().currentUser
+        // const email = currentUser.email
+        // const data = {
+        //   email: email,
+        //   firstName: getUserData?.firstName,
+        //   lastName: getUserData?.lastName,
+        //   isemailVerified: true,
+        // };
+        await verifiedUserSaveInDb(getUserData)
         Navigate(navigation, 'AddProfile');
 
       }
@@ -170,7 +177,7 @@ const VerifyEmail = ({ navigation, route }) => {
     catch (error) {
       setLoading(false)
       Alert.alert(error.message)
-      await signOut()
+      await SignOut()
 
     }
   };

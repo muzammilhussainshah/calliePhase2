@@ -1,4 +1,5 @@
 import React, {
+  useEffect,
   useState
 } from 'react';
 import {
@@ -17,14 +18,16 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import Button from '../../components/Button';
 import Colors from '../../styles/Colors';
 import { styles } from './styles';
-import { updateProfile } from '../../store/action/action';
+import { getCurrentUserData, updateProfile } from '../../store/action/action';
 
 const AddProfile = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
 
   const [imgUrl, setImgURL] = useState('')
   const [imgData, setImgData] = useState('')
-
+  // useEffect(() => {
+  //   getCurrentUserData()
+  // }, [])
   const getMenu = async () => {
     try {
       launchImageLibrary({ mediaType: 'photo' }, response => {
@@ -40,13 +43,13 @@ const AddProfile = ({ navigation, route }) => {
   };
 
   const renderContent = () => {
-    if (loading) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator size="large" color="#fff" />
-        </View>
-      );
-    }
+    // if (loading) {
+    //   return (
+    //     <View style={styles.container}>
+    //       <ActivityIndicator size="large" color="#fff" />
+    //     </View>
+    //   );
+    // }
 
     return (
       <SafeAreaView style={styles.container}>
@@ -69,13 +72,21 @@ const AddProfile = ({ navigation, route }) => {
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
-          <Button
-            title="SAVE"
-            callBack={() => updateProfile(imgData)}
-            // callBack={() => alert('alert')}
-            customStyle={styles.loginPrimaryButton(false)}
-            titleStyle={styles.loginPrimaryButtonText(false)}
-          />
+          {loading ?
+            <View style={styles.container}>
+              <ActivityIndicator size="large" color="#fff" />
+            </View> :
+            <Button
+              title="SAVE"
+              callBack={async () => {
+                await setLoading(true)
+                await updateProfile(imgData, navigation,setLoading)
+              }}
+              // callBack={() => alert('alert')}
+              customStyle={styles.loginPrimaryButton(false)}
+              titleStyle={styles.loginPrimaryButtonText(false)}
+            />
+          }
         </View>
       </SafeAreaView>
     );
