@@ -45,7 +45,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
     }
 
   }, [])
-
+  console.log(selectedCourse, 'selectedCourse')
   useEffect(() => {
     if (selectedSubjectCourses?.length > 0) setselectedSubjectCourse(selectedSubjectCourses)
   }, [selectedSubjectCourses])
@@ -74,7 +74,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
 
         :
         <>
-          {selectedCourse?.data?.length > 0 ?
+          {/* {selectedCourse?.data?.length > 0 ?
             <>
               <FlatList
                 data={selectedCourse?.data}
@@ -99,15 +99,15 @@ const AddCurrentCourse = ({ navigation, route }) => {
                 customStyle={styles.loginPrimaryButton(false)}
                 titleStyle={styles.loginPrimaryButtonText(false)}
               />
-            </>
-            :
-            <FlatList
-              data={selectedSubjectCourse}
-              renderItem={({ item }) => <CourseCart item={item} setselectedCourse={setselectedCourse} />}
-              keyExtractor={(item, index) => index.toString()}
-            />
+            </> */}
+          {/* : */}
+          <FlatList
+            data={selectedSubjectCourse}
+            renderItem={({ item }) => <CourseCart item={item} selectedCourse={selectedCourse} setselectedCourse={setselectedCourse} />}
+            keyExtractor={(item, index) => index.toString()}
+          />
 
-          }
+          {/* } */}
         </>
 
       }

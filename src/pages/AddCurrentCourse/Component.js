@@ -18,7 +18,7 @@ import { getCourseTiming } from '../../store/action/action';
 import Loader from '../../components/Loader';
 import Colors from '../../styles/Colors';
 
-export const CourseCart = ({ item, setselectedCourse }) => {
+export const CourseCart = ({ item, selectedCourse, setselectedCourse }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [loader, setloader] = useState(false)
     const courseDataLoader = useSelector((state) => state.root.courseDataLoader)
@@ -37,7 +37,7 @@ export const CourseCart = ({ item, setselectedCourse }) => {
                     setIsOpen(!isOpen)
                     if (!allItem.time) {
                         item?.content?.map(async (item) => {
-                            dispatch(getCourseTiming(  item, setloader))
+                            dispatch(getCourseTiming(item, setloader))
                         })
                     }
                 }}      >
@@ -48,10 +48,30 @@ export const CourseCart = ({ item, setselectedCourse }) => {
             {isOpen &&
                 <FlatList
                     data={data}
-                    style={[styles.courseCartContainer, styles.mb1, { paddingHorizontal: 0, marginBottom:  RFPercentage(.5), }]}
+                    style={[styles.courseCartContainer, styles.mb1, { paddingHorizontal: 0, marginBottom: RFPercentage(.5), }]}
                     renderItem={({ item, index }) => (
                         < TouchableOpacity
-                            onPress={() => { setselectedCourse(allItem) }}
+                            onPress={() => {
+                                // let abc = []
+                                // let newArray = []
+                                let data = JSON.parse(JSON.stringify(selectedCourse))
+                                // if (JSON.parse(JSON.stringify(selectedCourse))?.length > 0) newArray.push(JSON.parse(JSON.stringify(selectedCourse)))
+                                // newArray.push(allItem)
+                                // console.log(selectedCourse, allItem, 'selectedCourse', newArray, JSON.parse(JSON.stringify(selectedCourse)))
+                                let obj = {}
+                                obj.instructorName = instructorArray[index]
+                                obj.content = allItem?.content[index]
+                                obj.section = item
+                                obj.text = allItem?.text
+                                obj.time = allItem?.time[index]
+
+                                // obj.section.filter()
+                                let getIndex = data.findIndex((val) => val?.content[0] == obj?.content[0])
+                                // console.log(getIndex, 'selectedCourse', obj, data)
+                                if (getIndex == -1) data.push(obj)
+                                else data.splice(getIndex, 1)
+                                setselectedCourse(data)
+                            }}
                             style={[styles.selectedCourseDropdownContainer, { borderBottomWidth: index + 1 == data.length ? 0 : 1 },]}>
                             {loader ?
                                 <Loader color={Colors.black} />
