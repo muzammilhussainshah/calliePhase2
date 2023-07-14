@@ -20,15 +20,12 @@ import { useDispatch } from 'react-redux';
 import { getCourseSubjectList } from '../../store/action/action';
 
 
-const AddCurrentCourse = ({ navigation }) => {
-
+const AddCurrentCourse = ({ navigation, route }) => {
+  
+  const selectedCourseSubject = route.params.item
   const [selectedCourse, setselectedCourse] = useState([])
-  const dispatch = useDispatch()
   const navigateBack = () => { navigation.goBack(); };
 
-  useEffect(() => {
-    // dispatch(getCourseSubjectList())
-  }, [])
   return (
     <SafeAreaView style={styles.container}>
 

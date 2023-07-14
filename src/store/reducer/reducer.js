@@ -4,6 +4,8 @@ const INITIAL_STATE = {
 
     currentUser: null,
     loader: null,
+
+    courseSubject: [],
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -17,6 +19,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 loader: action.payload
+            })
+        case ActionTypes.COURSESUBJECT:
+            return ({
+                ...state,
+                courseSubject: action.payload
             })
 
         default:

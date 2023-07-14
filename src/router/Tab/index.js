@@ -17,6 +17,7 @@ import AddCurrentCourse from '../../pages/AddCurrentCourse/AddCurrentCourse';
 import EditGraduation from '../../pages/EditGraduation/EditGraduation';
 import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword';
 import ForgetPasswordEmailSent from '../../pages/ForgetPasswordEmailSent/ForgetPasswordEmailSent';
+import AddCurrentCourseSubject from '../../pages/AddCurrentCourseSubject/AddCurrentCourseSubject';
 
 const Stack = createStackNavigator();
 
@@ -31,7 +32,7 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"AddCurrentCourse"}
+        initialRouteName={"AddCurrentCourseSubject"}
       >
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
@@ -40,6 +41,7 @@ export const Navigation = () => {
         <Stack.Screen name="SetPassword" component={SetPassword} initialParams={{ comeFromForget: true }} />
         <Stack.Screen name="AddProfile" component={AddProfile} />
         <Stack.Screen name="AddCurrentCourse" component={AddCurrentCourse} />
+        <Stack.Screen name="AddCurrentCourseSubject" component={AddCurrentCourseSubject} />
         <Stack.Screen name="EditGraduation" component={EditGraduation} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
         <Stack.Screen name="ForgetPasswordEmailSent" component={ForgetPasswordEmailSent} />
