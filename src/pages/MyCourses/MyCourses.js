@@ -32,6 +32,26 @@ const MyCourses = ({ navigation, route }) => {
 
   const dispatch = useDispatch()
 
+  const searchUser = (e) => {
+    let keywords = e.split(' ');
+    // setsearch(keywords);
+    if (keywords[0] === '') {
+      setMyCoursesSt(myCourses);
+    }
+    if (keywords[0] !== '') {
+      let searchPattern = new RegExp(
+        keywords.map((term) => `(?=.*${term})`).join(''),
+        'i'
+      );
+      let filterChat = [];
+      for (let index = 0; index < myCoursesSt?.length; index++) {
+        filterChat = myCoursesSt?.filter((data) => {
+          return data[`text`].match(searchPattern);
+        });
+      }
+      setMyCoursesSt(filterChat);
+    }
+  };
   return (
     <SafeAreaView style={[styles.container, {}]}>
 
@@ -45,6 +65,7 @@ const MyCourses = ({ navigation, route }) => {
       <View style={styles.searchContainer}>
         <Text style={[styles.description, { width: 'auto' }]}>{`Search courses`}</Text>
         <TextInput
+          onChangeText={(text) => searchUser(text)}
           style={styles.inlineInput}
           placeholder="Course Name"
           placeholderTextColor={Colors.gray}
@@ -80,7 +101,11 @@ const MyCourses = ({ navigation, route }) => {
       />
       <Button
         title="SAVE"
-        callBack={()=>Navigate(navigation,'EditGraduation')}
+        callBack={() => {
+          if (myCoursesSt.length > 0) Navigate(navigation, 'EditGraduation')
+          else { Alert.alert('Please select any course') }
+        }
+        }
         customStyle={styles.loginPrimaryButton(false)}
         titleStyle={styles.loginPrimaryButtonText(false)}
       />

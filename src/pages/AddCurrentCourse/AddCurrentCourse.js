@@ -18,7 +18,7 @@ import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, getCourseDetail, getCourseSubjectList } from '../../store/action/action';
+import { Navigate, getCourseDetail, } from '../../store/action/action';
 import ActionTypes from '../../store/constant/constant';
 import Loader from '../../components/Loader';
 
@@ -84,7 +84,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
         <Text style={[styles.description, { width: 'auto' }]}>{`Search courses`}</Text>
         <TextInput
           style={styles.inlineInput}
-          onChangeText={(text)=>searchUser(text)}
+          onChangeText={(text) => searchUser(text)}
           placeholder="Course Name"
           placeholderTextColor={Colors.gray}
         />
