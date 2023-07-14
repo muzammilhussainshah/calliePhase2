@@ -25,6 +25,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
   const selectedCourseSubject = route.params.item
 
   const [selectedCourse, setselectedCourse] = useState([])
+
   const [selectedSubjectCourse, setselectedSubjectCourse] = useState([])
 
   const selectedSubjectCourses = useSelector((state) => state.root.selectedSubjectCourses)
@@ -35,13 +36,11 @@ const AddCurrentCourse = ({ navigation, route }) => {
 
   useEffect(() => {
     if (selectedCourseSubject) dispatch(getCourseDetail(selectedCourseSubject[`Subject Code`]))
-
   }, [])
-  
+
   useEffect(() => {
-    if (selectedSubjectCourses?.length > 0){
-      setselectedSubjectCourse(selectedSubjectCourses)
-    } 
+    if (selectedSubjectCourses?.length > 0) setselectedSubjectCourse(selectedSubjectCourses)
+    console.log(selectedSubjectCourses, 'selectedSubjectCourses')
   }, [selectedSubjectCourses])
 
   return (
@@ -91,7 +90,6 @@ const AddCurrentCourse = ({ navigation, route }) => {
           />
         </>
         :
-
         <FlatList
           data={selectedSubjectCourse}
           renderItem={({ item }) => <CourseCart item={item} setselectedCourse={setselectedCourse} />}

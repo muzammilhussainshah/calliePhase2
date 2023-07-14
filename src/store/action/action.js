@@ -7,6 +7,7 @@ import axios from "axios";
 
 import { Share } from "react-native";
 import ActionTypes from '../constant/constant';
+import store from '..';
 
 const db = firebase.firestore();
 
@@ -183,22 +184,18 @@ export function getCourseSubjectList() {
     }
 }
 export const getCourseDetail = (courseName) => {
-    console.log(courseName, 'courseName')
     return async (dispatch) => {
         const newURL = `https://www.lsa.umich.edu/cg/cg_results.aspx?termArray=f_23_2460&cgtype=ug&department=${courseName}&allsections=true&show=1000`
         try {
-            // setloader(true)
             var config = {
                 method: 'get',
                 url: newURL,
                 headers: { 'Content-Type': 'application/json;charset=utf-8' },
             };
-
             axios(config)
                 .then(function (response) {
                     const htmlContent = response.data;
                     const $ = cheerio.load(htmlContent);
-                    // console.log($, 'response')
                     // Use Cheerio selectors to extract the data you need
                     const titles = [];
                     $('a[href^="mailto"]')
@@ -208,8 +205,6 @@ export const getCourseDetail = (courseName) => {
                             const text = $(element).text().trim();
                             titles.push(text);
                         });
-                    // console.log(titles, 'titlestitles')
-
                     const sectionarr = []
                     $('div.row.bottompadding_main')
                         .each((index, element) => {
@@ -217,8 +212,6 @@ export const getCourseDetail = (courseName) => {
                             const cleanTitle = section.replace(/\n|\t/g, '').trim(); // Remove line breaks (\n), tabs (\t), and trim extra spaces
                             sectionarr.push(cleanTitle);
                         });
-                    // console.log(sectionarr, 'sectionarr')
-
                     const courseData = [];
                     $('a[href^="cg_detail.aspx?content"]').each((index, element) => {
                         const text = $(element).text().replace(/\n|\t/g, '').replace(/\s+/g, ' ').trim();
@@ -269,6 +262,56 @@ export const getCourseDetail = (courseName) => {
                 .catch(function (error) {
                     console.log(error, 'error')
                 });
+        }
+        catch (err) {
+            console.log(err, 'error')
+        }
+    }
+}
+export const getCourseTiming = (item, content) => {
+    return async (dispatch) => {
+        const newURL = `https://www.lsa.umich.edu/cg/cg_detail.aspx?content${content}`
+        try {
+            var config = {
+                method: 'get',
+                url: newURL,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            };
+
+            let time = axios(config)
+                .then(function (response) {
+                    const htmlContent = response.data;
+                    const $ = cheerio.load(htmlContent);
+                    const divData = []
+                    $('td.MPCol_Time').each((index, element) => {
+                        const data = $(element).text().trim();
+                        divData.push(data);
+                    });
+                    //   courseData.time = divData[0]
+                    // item.time = divData[0]
+                    let selectedSubjectCourses = store.getState().root.selectedSubjectCourses
+                    const filteredObjects = selectedSubjectCourses.filter(obj =>
+                        obj.content.some(subArr => subArr.includes(content[0]))
+                    );
+                    if (filteredObjects[0]?.time?.length > 0) filteredObjects[0].time.push(divData[0])
+                    else {
+                        filteredObjects[0].time = []
+                        filteredObjects[0].time.push(divData[0])
+                    }
+                    dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: [] });
+                    dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: selectedSubjectCourses });
+
+
+                    // console.log(filteredObjects, 'filteredObjects', divData[0]);
+                    // console.log(store.getState().root.selectedSubjectCourses, 'itemitemitemitem', item, content)
+                    // return divData[0]
+                    // console.log(divData[0], ' divData')
+                    //   courseDataSt(courseData)
+                })
+                .catch(function (error) {
+                    console.log(error, 'error')
+                });
+            return time
         }
         catch (err) {
             console.log(err, 'error')

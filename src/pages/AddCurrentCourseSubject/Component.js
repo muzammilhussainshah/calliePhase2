@@ -14,18 +14,15 @@ import { styles } from './styles';
 import { Navigate } from '../../store/action/action';
 
 export const CourseCart = ({ item, navigation }) => {
-
-    const [isOpen, setIsOpen] = useState(false)
-    
     return (
         <>
             <TouchableOpacity
                 activeOpacity={.8}
                 onPress={() => Navigate(navigation, 'AddCurrentCourse', { item })}
-                style={[styles.courseCartContainer, { marginVertical: isOpen ? 0 : RFPercentage(.5), }]}>
+                style={[styles.courseCartContainer, { marginVertical:   RFPercentage(.5), }]}>
                 <Text style={styles.courseCartTitle}>{item[`Subject Code`]}</Text>
 
-                <TouchableOpacity activeOpacity={.8} onPress={() => setIsOpen(!isOpen)}      >
+                <TouchableOpacity activeOpacity={.8}  >
                     <AntDesign name={'right'} size={RFPercentage(2)} style={styles.cartDownArrow} />
                 </TouchableOpacity>
 
