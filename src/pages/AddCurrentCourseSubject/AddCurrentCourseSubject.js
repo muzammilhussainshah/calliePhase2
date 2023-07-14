@@ -57,18 +57,10 @@ const AddCurrentCourseSubject = ({ navigation }) => {
           return data[`Subject Code`].match(searchPattern);
         });
       }
-      // let obj = {};
-      // obj.day = bookingData.day;
-      // obj.data = filterChat;
-      // console.log(filterChat, ' filterChat')
-      // obj.customerCards = bookingData.customerCards;
       setcourseSubjects(filterChat);
     }
   };
   const navigateBack = () => { navigation.goBack(); };
-
-
-
 
   return (
     <SafeAreaView style={[styles.container,]}>

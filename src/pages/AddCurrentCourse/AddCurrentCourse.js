@@ -50,6 +50,26 @@ const AddCurrentCourse = ({ navigation, route }) => {
     if (selectedSubjectCourses?.length > 0) setselectedSubjectCourse(selectedSubjectCourses)
   }, [selectedSubjectCourses])
 
+  const searchUser = (e) => {
+    let keywords = e.split(' ');
+    // setsearch(keywords);
+    if (keywords[0] === '') {
+      setselectedSubjectCourse(selectedSubjectCourses);
+    }
+    if (keywords[0] !== '') {
+      let searchPattern = new RegExp(
+        keywords.map((term) => `(?=.*${term})`).join(''),
+        'i'
+      );
+      let filterChat = [];
+      for (let index = 0; index < selectedSubjectCourse?.length; index++) {
+        filterChat = selectedSubjectCourse?.filter((data) => {
+          return data[`text`].match(searchPattern);
+        });
+      }
+      setselectedSubjectCourse(filterChat);
+    }
+  };
   return (
     <SafeAreaView style={[styles.container, {}]}>
 
@@ -64,6 +84,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
         <Text style={[styles.description, { width: 'auto' }]}>{`Search courses`}</Text>
         <TextInput
           style={styles.inlineInput}
+          onChangeText={(text)=>searchUser(text)}
           placeholder="Course Name"
           placeholderTextColor={Colors.gray}
         />
