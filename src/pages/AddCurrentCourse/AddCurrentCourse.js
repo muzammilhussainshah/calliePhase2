@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -16,14 +16,19 @@ import { CARTDATA } from './dummyData';
 import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
+import { useDispatch } from 'react-redux';
+import { getCourseSubjectList } from '../../store/action/action';
 
 
 const AddCurrentCourse = ({ navigation }) => {
 
   const [selectedCourse, setselectedCourse] = useState([])
-
+  const dispatch = useDispatch()
   const navigateBack = () => { navigation.goBack(); };
 
+  useEffect(() => {
+    // dispatch(getCourseSubjectList())
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
 

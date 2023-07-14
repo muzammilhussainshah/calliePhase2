@@ -136,5 +136,42 @@ export async function verifiedUserSaveInDb(getUserData) {
     } else {
         console.error('User is not authenticated.');
     }
-
 }
+// export function getCourseSubjectList() {
+//     try {
+//         // setloader(true)
+//         var config = {
+//             method: 'get',
+//             url: `https://www.lsa.umich.edu/cg/cg_subjectlist.aspx?termArray=f_23_2460&cgtype=ug&allsections=true`,
+//             headers: { 'Content-Type': 'application/json;charset=utf-8' },
+//         };
+
+//         axios(config)
+//             .then(function (response) {
+//                 const htmlContent = response.data;
+//                 const $ = cheerio.load(htmlContent);
+//                 // Use Cheerio selectors to extract the data you need
+//                 const titles = [];
+//                 $('td').each((index, element) => {
+//                     const title = $(element).text().trim(); // Remove leading and trailing whitespace
+//                     const cleanTitle = title.replace(/\n/g, ''); // Remove line breaks (\n)
+//                     titles.push(cleanTitle);
+//                 });
+//                 // Create an array of objects with Subject Code and Description properties
+//                 const data = [];
+//                 for (let i = 0; i < titles.length; i += 2) {
+//                     const subjectCode = titles[i];
+//                     const description = titles[i + 1];
+//                     data.push({ "Subject Code": subjectCode, "Description": description });
+//                 }
+//                 console.log(data, 'data')
+//                 // Do something with the extracted data
+//             })
+//             .catch(function (error) {
+//                 console.log(error, 'err profileData')
+//             });
+//     }
+//     catch (err) {
+//         console.log(err, 'err profileData')
+//     }
+// }
