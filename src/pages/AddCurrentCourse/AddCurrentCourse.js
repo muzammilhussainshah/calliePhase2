@@ -26,8 +26,8 @@ const AddCurrentCourse = ({ navigation, route }) => {
 
   const selectedCourseSubject = route.params.item
 
+  const [loading, setLoading] = useState(false);
   const [selectedCourse, setselectedCourse] = useState([])
-
   const [selectedSubjectCourse, setselectedSubjectCourse] = useState([])
 
   const selectedSubjectCourses = useSelector((state) => state.root.selectedSubjectCourses)
@@ -103,10 +103,27 @@ const AddCurrentCourse = ({ navigation, route }) => {
           {/* : */}
           <FlatList
             data={selectedSubjectCourse}
+            // styles={{ backgroundColor:'red'}}
             renderItem={({ item }) => <CourseCart item={item} selectedCourse={selectedCourse} setselectedCourse={setselectedCourse} />}
             keyExtractor={(item, index) => index.toString()}
           />
-
+          <View >
+            {loading ?
+              <View style={styles.container}>
+                <ActivityIndicator size="large" color="#fff" />
+              </View> :
+              <Button
+                title="SAVE"
+                callBack={async () => {
+                  // await auth().signOut()
+                  // await setLoading(true)
+                  // await updateProfile(imgData, navigation, setLoading)
+                }}
+                customStyle={styles.loginPrimaryButton(false)}
+                titleStyle={styles.loginPrimaryButtonText(false)}
+              />
+            }
+          </View>
           {/* } */}
         </>
 

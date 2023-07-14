@@ -145,4 +145,33 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         color: primary ? Colors.secondary : Colors.primary
     }),
+    footer: {
+        flex: 1,
+        backgroundColor:'pink',
+        justifyContent: "center",
+        alignItems: 'center'
+    },
+    loginPrimaryButton: (primary) => ({
+        height: RFPercentage(4.5),
+        alignSelf: 'center',
+        borderRadius: RFPercentage(2),
+        width: '40%',
+        justifyContent: 'center',
+        alignItems: "center",
+        backgroundColor: primary ? Colors.primary : Colors.white,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        marginVertical: RFPercentage(1)
+    }),
+    loginPrimaryButtonText: (primary) => ({
+        fontWeight: '600',
+        color: primary ? Colors.secondary : Colors.primary
+    }),
+
 });
