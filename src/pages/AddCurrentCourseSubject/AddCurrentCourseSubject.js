@@ -19,6 +19,7 @@ import Colors from '../../styles/Colors';
 import { styles } from './styles';
 import { CourseCart } from './Component';
 import { getCourseSubjectList } from '../../store/action/action';
+import Loader from '../../components/Loader';
 
 
 const AddCurrentCourseSubject = ({ navigation }) => {
@@ -26,6 +27,7 @@ const AddCurrentCourseSubject = ({ navigation }) => {
 
   const [courseSubjects, setcourseSubjects] = useState([])
 
+  const loader = useSelector((state) => state.root.loader)
   const courseSubject = useSelector((state) => state.root.courseSubject)
 
   const dispatch = useDispatch()
@@ -33,14 +35,14 @@ const AddCurrentCourseSubject = ({ navigation }) => {
   useEffect(() => {
     if (courseSubject.length > 0) setcourseSubjects(courseSubject)
   }, [courseSubject])
-  
+
   useEffect(() => {
     dispatch(getCourseSubjectList())
   }, [])
 
   const navigateBack = () => { navigation.goBack(); };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container,]}>
 
       <TouchableOpacity onPress={navigateBack} style={styles.backButtonContainer}>
         <AntDesign name="arrowleft" color={Colors.white} size={RFPercentage(3)} />
@@ -59,13 +61,17 @@ const AddCurrentCourseSubject = ({ navigation }) => {
       </View>
 
       <Text style={[styles.inputTitleMyCourse,]}>{`Select Subjects`}</Text>
-
-      <FlatList
-        data={courseSubjects}
-        renderItem={({ item }) => <CourseCart item={item} navigation={navigation} />}
-        keyExtractor={(item, index) => index.toString()}
-      />
-
+      {loader ?
+        <Loader color={Colors.white} />
+        :
+        <>
+          <FlatList
+            data={courseSubjects}
+            renderItem={({ item }) => <CourseCart item={item} navigation={navigation} />}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        </>
+      }
     </SafeAreaView>
   );
 };

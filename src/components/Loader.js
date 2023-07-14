@@ -1,10 +1,12 @@
 // @app
 import React from 'react';
-import { Text, TouchableOpacity,ActivityIndicator } from 'react-native';
+import { Text, TouchableOpacity, ActivityIndicator, View } from 'react-native';
 
-const Loader = ({ }) => {
+const Loader = ({ color }) => {
     return (
-        <ActivityIndicator size="large" />
+        <View style={{ alignItems: 'center', justifyContent: "center", flex: 1, }}>
+            <ActivityIndicator size="large" color={color && color} />
+        </View>
     );
 };
 export default Loader;

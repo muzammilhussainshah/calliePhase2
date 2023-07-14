@@ -63,10 +63,10 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
         backgroundColor: Colors.white,
         borderRadius: RFPercentage(1),
-        padding:RFPercentage(1),
+        padding: RFPercentage(1),
         flexDirection: 'row',
         justifyContent: 'center',
-        alignItems:'center',
+        alignItems: 'center',
         overflow: "hidden"
     },
     courseCartTitle: {
@@ -145,4 +145,5 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         color: primary ? Colors.secondary : Colors.primary
     }),
+    loaderContainer: { alignItems: 'center', justifyContent: "center", flex: 1 },
 });

@@ -18,14 +18,12 @@ import { getCourseTiming } from '../../store/action/action';
 
 export const CourseCart = ({ item, setselectedCourse }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [courseTime, setcourseTime] = useState([])
+
     const dispatch = useDispatch()
 
     let allItem = item
     let data = item?.section
     let instructorArray = item?.instructorName
-    console.log(item, 'courseTime')
-    // console.table(courseTime); // Display the array as a table in the console
 
     return (
         <>
@@ -33,19 +31,11 @@ export const CourseCart = ({ item, setselectedCourse }) => {
                 <Text style={styles.courseCartTitle}>{item?.text}</Text>
                 <TouchableOpacity activeOpacity={.8} onPress={async () => {
                     setIsOpen(!isOpen)
-                    // let courseData = {content: }
-                    // let courseTime = []
-                    // await 
                     if (!allItem.time) {
                         item?.content?.map(async (item) => {
-                            // console.log(item, 'content', allItem?.content)
-                            // let time = await
                             dispatch(getCourseTiming(allItem, item))
-                            // console.log(time, 'time')
-                            // await courseTime.push(time.toString())
                         })
                     }
-                    // setcourseTime(courseTime)
                 }}      >
                     <AntDesign name={!isOpen ? 'left' : "down"} size={RFPercentage(2)} style={styles.cartDownArrow} />
                 </TouchableOpacity>
@@ -54,14 +44,15 @@ export const CourseCart = ({ item, setselectedCourse }) => {
             {isOpen &&
                 <FlatList
                     data={data}
-                    style={[styles.courseCartContainer, styles.mb1, { paddingHorizontal: 0,marginVertical: isOpen ? 0 : RFPercentage(.5), }]}
+                    style={[styles.courseCartContainer, styles.mb1, { paddingHorizontal: 0, marginVertical: isOpen ? 0 : RFPercentage(.5), }]}
                     renderItem={({ item, index }) => (
                         <TouchableOpacity
                             onPress={() => { setselectedCourse(allItem) }}
                             style={[styles.selectedCourseDropdownContainer, { borderBottomWidth: index + 1 == data.length ? 0 : 1 },]}>
                             <Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }]}>{instructorArray[index]} - {item}</Text>
-                            <Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }, styles.fontNormal]}>{allItem?.time && allItem?.time[index]}</Text>
-                        </TouchableOpacity>
+
+                            {allItem?.time && allItem?.time[index] && allItem?.time[index].length > 0 && < Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }, styles.fontNormal]}>{allItem?.time[index]}</Text>}
+                        </TouchableOpacity >
 
 
                     )}

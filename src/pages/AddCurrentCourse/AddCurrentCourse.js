@@ -18,6 +18,8 @@ import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCourseDetail, getCourseSubjectList } from '../../store/action/action';
+import ActionTypes from '../../store/constant/constant';
+import Loader from '../../components/Loader';
 
 
 const AddCurrentCourse = ({ navigation, route }) => {
@@ -29,6 +31,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
   const [selectedSubjectCourse, setselectedSubjectCourse] = useState([])
 
   const selectedSubjectCourses = useSelector((state) => state.root.selectedSubjectCourses)
+  const loader = useSelector((state) => state.root.loader)
 
   const navigateBack = () => { navigation.goBack(); };
 
@@ -36,15 +39,19 @@ const AddCurrentCourse = ({ navigation, route }) => {
 
   useEffect(() => {
     if (selectedCourseSubject) dispatch(getCourseDetail(selectedCourseSubject[`Subject Code`]))
+    return () => {
+      dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: [] });
+      setselectedSubjectCourse([])
+    }
+
   }, [])
 
   useEffect(() => {
     if (selectedSubjectCourses?.length > 0) setselectedSubjectCourse(selectedSubjectCourses)
-    console.log(selectedSubjectCourses, 'selectedSubjectCourses')
   }, [selectedSubjectCourses])
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, {}]}>
 
       <TouchableOpacity onPress={navigateBack} style={styles.backButtonContainer}>
         <AntDesign name="arrowleft" color={Colors.white} size={RFPercentage(3)} />
@@ -62,39 +69,46 @@ const AddCurrentCourse = ({ navigation, route }) => {
         />
       </View>
       {/* <Text style={[styles.inputTitleMyCourse,]}>{`MY COURSES`}</Text> */}
+      {loader ?
+        <Loader color={Colors.white} />
 
-      {selectedCourse?.data?.length > 0 ?
-        <>
-          <FlatList
-            data={selectedCourse?.data}
-            contentContainerStyle={styles.myCoursesContentContainer}
-            renderItem={({ item }) => {
-              return (
-                <View style={styles.myCoursesListContainer}>
-                  <Text style={styles.myCoursesColor} >{item.name}</Text>
-                  <Button
-                    title={<AntDesign
-                      name='close'
-                      color={Colors.black}
-                      size={RFPercentage(2)} />}
-                    callBack={() => console.log('ahmed shah')} />
-                </View>
-              )
-            }}
-            keyExtractor={(item) => item.id}
-          />
-          <Button
-            title="SAVE"
-            customStyle={styles.loginPrimaryButton(false)}
-            titleStyle={styles.loginPrimaryButtonText(false)}
-          />
-        </>
         :
-        <FlatList
-          data={selectedSubjectCourse}
-          renderItem={({ item }) => <CourseCart item={item} setselectedCourse={setselectedCourse} />}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        <>
+          {selectedCourse?.data?.length > 0 ?
+            <>
+              <FlatList
+                data={selectedCourse?.data}
+                contentContainerStyle={styles.myCoursesContentContainer}
+                renderItem={({ item }) => {
+                  return (
+                    <View style={styles.myCoursesListContainer}>
+                      <Text style={styles.myCoursesColor} >{item.name}</Text>
+                      <Button
+                        title={<AntDesign
+                          name='close'
+                          color={Colors.black}
+                          size={RFPercentage(2)} />}
+                        callBack={() => console.log('muzammil hussain')} />
+                    </View>
+                  )
+                }}
+                keyExtractor={(item) => item.id}
+              />
+              <Button
+                title="SAVE"
+                customStyle={styles.loginPrimaryButton(false)}
+                titleStyle={styles.loginPrimaryButtonText(false)}
+              />
+            </>
+            :
+            <FlatList
+              data={selectedSubjectCourse}
+              renderItem={({ item }) => <CourseCart item={item} setselectedCourse={setselectedCourse} />}
+              keyExtractor={(item, index) => index.toString()}
+            />
+
+          }
+        </>
 
       }
 

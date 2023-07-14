@@ -146,14 +146,14 @@ export async function verifiedUserSaveInDb(getUserData) {
 export function getCourseSubjectList() {
     return async (dispatch) => {
         try {
-            // setloader(true)
+            dispatch({ type: ActionTypes.LOADER, payload: true });
             var config = {
                 method: 'get',
                 url: `https://www.lsa.umich.edu/cg/cg_subjectlist.aspx?termArray=f_23_2460&cgtype=ug&allsections=true`,
                 headers: { 'Content-Type': 'application/json;charset=utf-8' },
             };
 
-            axios(config)
+            await axios(config)
                 .then(function (response) {
                     const htmlContent = response.data;
                     const $ = cheerio.load(htmlContent);
@@ -173,12 +173,17 @@ export function getCourseSubjectList() {
                     }
                     dispatch({ type: ActionTypes.COURSESUBJECT, payload: data });
                     // Do something with the extracted data
+                    dispatch({ type: ActionTypes.LOADER, payload: false });
                 })
                 .catch(function (error) {
+                    dispatch({ type: ActionTypes.LOADER, payload: false });
                     console.log(error, 'err profileData')
                 });
+            dispatch({ type: ActionTypes.LOADER, payload: false });
+
         }
         catch (err) {
+            dispatch({ type: ActionTypes.LOADER, payload: false });
             console.log(err, 'err profileData')
         }
     }
@@ -187,6 +192,7 @@ export const getCourseDetail = (courseName) => {
     return async (dispatch) => {
         const newURL = `https://www.lsa.umich.edu/cg/cg_results.aspx?termArray=f_23_2460&cgtype=ug&department=${courseName}&allsections=true&show=1000`
         try {
+            dispatch({ type: ActionTypes.LOADER, payload: true });
             var config = {
                 method: 'get',
                 url: newURL,
@@ -258,13 +264,16 @@ export const getCourseDetail = (courseName) => {
                         return acc;
                     }, []);
                     dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: filteredArray });
+                    dispatch({ type: ActionTypes.LOADER, payload: false });
                 })
                 .catch(function (error) {
+                    dispatch({ type: ActionTypes.LOADER, payload: false });
                     console.log(error, 'error')
                 });
         }
         catch (err) {
             console.log(err, 'error')
+            dispatch({ type: ActionTypes.LOADER, payload: false });
         }
     }
 }
