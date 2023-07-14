@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
-  FlatList
+  FlatList,
+  Alert
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -17,7 +18,7 @@ import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCourseDetail, getCourseSubjectList } from '../../store/action/action';
+import { Navigate, getCourseDetail, getCourseSubjectList } from '../../store/action/action';
 import ActionTypes from '../../store/constant/constant';
 import Loader from '../../components/Loader';
 
@@ -45,7 +46,6 @@ const AddCurrentCourse = ({ navigation, route }) => {
     }
 
   }, [])
-  console.log(selectedCourse, 'selectedCourse')
   useEffect(() => {
     if (selectedSubjectCourses?.length > 0) setselectedSubjectCourse(selectedSubjectCourses)
   }, [selectedSubjectCourses])
@@ -103,7 +103,6 @@ const AddCurrentCourse = ({ navigation, route }) => {
           {/* : */}
           <FlatList
             data={selectedSubjectCourse}
-            // styles={{ backgroundColor:'red'}}
             renderItem={({ item }) => <CourseCart item={item} selectedCourse={selectedCourse} setselectedCourse={setselectedCourse} />}
             keyExtractor={(item, index) => index.toString()}
           />
@@ -115,9 +114,8 @@ const AddCurrentCourse = ({ navigation, route }) => {
               <Button
                 title="SAVE"
                 callBack={async () => {
-                  // await auth().signOut()
-                  // await setLoading(true)
-                  // await updateProfile(imgData, navigation, setLoading)
+                  if (selectedCourse?.length == 0) Alert.alert("Please select any course")
+                  else Navigate(navigation, 'MyCourses',selectedCourse)
                 }}
                 customStyle={styles.loginPrimaryButton(false)}
                 titleStyle={styles.loginPrimaryButtonText(false)}

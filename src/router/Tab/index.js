@@ -18,6 +18,7 @@ import EditGraduation from '../../pages/EditGraduation/EditGraduation';
 import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword';
 import ForgetPasswordEmailSent from '../../pages/ForgetPasswordEmailSent/ForgetPasswordEmailSent';
 import AddCurrentCourseSubject from '../../pages/AddCurrentCourseSubject/AddCurrentCourseSubject';
+import MyCourses from '../../pages/MyCourses/MyCourses';
 
 const Stack = createStackNavigator();
 
@@ -45,6 +46,7 @@ export const Navigation = () => {
         <Stack.Screen name="EditGraduation" component={EditGraduation} />
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
         <Stack.Screen name="ForgetPasswordEmailSent" component={ForgetPasswordEmailSent} />
+        <Stack.Screen name="MyCourses" component={MyCourses} />
         <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
