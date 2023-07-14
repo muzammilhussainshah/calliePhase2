@@ -277,8 +277,9 @@ export const getCourseDetail = (courseName) => {
         }
     }
 }
-export const getCourseTiming = (item, content) => {
+export const getCourseTiming = (content, setloader) => {
     return async (dispatch) => {
+        setloader(true)
         const newURL = `https://www.lsa.umich.edu/cg/cg_detail.aspx?content${content}`
         try {
             var config = {
@@ -286,19 +287,16 @@ export const getCourseTiming = (item, content) => {
                 url: newURL,
                 headers: { 'Content-Type': 'application/json;charset=utf-8' },
             };
-
-            let time = axios(config)
-                .then(function (response) {
+            await axios(config)
+                .then(async function (response) {
                     const htmlContent = response.data;
                     const $ = cheerio.load(htmlContent);
                     const divData = []
-                    $('td.MPCol_Time').each((index, element) => {
+                    await $('td.MPCol_Time').each((index, element) => {
                         const data = $(element).text().trim();
                         divData.push(data);
                     });
-                    //   courseData.time = divData[0]
-                    // item.time = divData[0]
-                    let selectedSubjectCourses = store.getState().root.selectedSubjectCourses
+                    let selectedSubjectCourses = await store.getState().root.selectedSubjectCourses
                     const filteredObjects = selectedSubjectCourses.filter(obj =>
                         obj.content.some(subArr => subArr.includes(content[0]))
                     );
@@ -307,23 +305,18 @@ export const getCourseTiming = (item, content) => {
                         filteredObjects[0].time = []
                         filteredObjects[0].time.push(divData[0])
                     }
-                    dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: [] });
-                    dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: selectedSubjectCourses });
-
-
-                    // console.log(filteredObjects, 'filteredObjects', divData[0]);
-                    // console.log(store.getState().root.selectedSubjectCourses, 'itemitemitemitem', item, content)
-                    // return divData[0]
-                    // console.log(divData[0], ' divData')
-                    //   courseDataSt(courseData)
+                    await dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: [] });
+                    await dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: selectedSubjectCourses });
+                    setloader(false)
                 })
                 .catch(function (error) {
+                    setloader(false)
                     console.log(error, 'error')
                 });
-            return time
         }
         catch (err) {
             console.log(err, 'error')
+            setloader(false)
         }
     }
 }

@@ -13,11 +13,15 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
 import { styles } from './styles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCourseTiming } from '../../store/action/action';
+import Loader from '../../components/Loader';
+import Colors from '../../styles/Colors';
 
 export const CourseCart = ({ item, setselectedCourse }) => {
     const [isOpen, setIsOpen] = useState(false)
+    const [loader, setloader] = useState(false)
+    const courseDataLoader = useSelector((state) => state.root.courseDataLoader)
 
     const dispatch = useDispatch()
 
@@ -33,7 +37,7 @@ export const CourseCart = ({ item, setselectedCourse }) => {
                     setIsOpen(!isOpen)
                     if (!allItem.time) {
                         item?.content?.map(async (item) => {
-                            dispatch(getCourseTiming(allItem, item))
+                            dispatch(getCourseTiming(  item, setloader))
                         })
                     }
                 }}      >
@@ -44,14 +48,20 @@ export const CourseCart = ({ item, setselectedCourse }) => {
             {isOpen &&
                 <FlatList
                     data={data}
-                    style={[styles.courseCartContainer, styles.mb1, { paddingHorizontal: 0, marginVertical: isOpen ? 0 : RFPercentage(.5), }]}
+                    style={[styles.courseCartContainer, styles.mb1, { paddingHorizontal: 0, marginBottom:  RFPercentage(.5), }]}
                     renderItem={({ item, index }) => (
-                        <TouchableOpacity
+                        < TouchableOpacity
                             onPress={() => { setselectedCourse(allItem) }}
                             style={[styles.selectedCourseDropdownContainer, { borderBottomWidth: index + 1 == data.length ? 0 : 1 },]}>
-                            <Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }]}>{instructorArray[index]} - {item}</Text>
+                            {loader ?
+                                <Loader color={Colors.black} />
+                                :
+                                <>
+                                    <Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }]}>{instructorArray[index]} - {item}</Text>
+                                    {allItem?.time && allItem?.time[index] && allItem?.time[index].length > 0 && < Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }, styles.fontNormal]}>{allItem?.time[index]}</Text>}
+                                </>
 
-                            {allItem?.time && allItem?.time[index] && allItem?.time[index].length > 0 && < Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }, styles.fontNormal]}>{allItem?.time[index]}</Text>}
+                            }
                         </TouchableOpacity >
 
 

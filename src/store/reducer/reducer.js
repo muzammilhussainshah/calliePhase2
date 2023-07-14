@@ -7,6 +7,7 @@ const INITIAL_STATE = {
 
     courseSubject: [],
     selectedSubjectCourses: [],
+    courseDataLoader: [],
 }
 
 export default (state = INITIAL_STATE, action) => {
@@ -30,6 +31,11 @@ export default (state = INITIAL_STATE, action) => {
             return ({
                 ...state,
                 selectedSubjectCourses: action.payload
+            })
+        case ActionTypes.COURSEDATALOADER:
+            return ({
+                ...state,
+                courseDataLoader: action.payload
             })
         default:
             return state;
