@@ -18,12 +18,14 @@ export const CourseCart = ({ item, setselectedCourse }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     let allItem = item
-    let data = item?.data
+    let data = item?.section
+    let instructorArray = item?.instructorName
+    console.log(item, 'item')
 
     return (
         <>
             <View style={[styles.courseCartContainer, { marginVertical: isOpen ? 0 : RFPercentage(.5), }]}>
-                <Text style={styles.courseCartTitle}>{item.title}</Text>
+                <Text style={styles.courseCartTitle}>{item?.text}</Text>
 
                 <TouchableOpacity activeOpacity={.8} onPress={() => setIsOpen(!isOpen)}      >
                     <AntDesign name={!isOpen ? 'left' : "down"} size={RFPercentage(2)} style={styles.cartDownArrow} />
@@ -38,10 +40,12 @@ export const CourseCart = ({ item, setselectedCourse }) => {
                     renderItem={({ item, index }) => (
                         <TouchableOpacity
                             onPress={() => { setselectedCourse(allItem) }}
-                            style={[styles.selectedCourseDropdownContainer, { borderBottomWidth: index + 1 == data.length ? 0 : 1 }]}>
-                            <Text style={[styles.courseCartTitle2, styles.mb1]}>{item.name}</Text>
-                            <Text style={[styles.courseCartTitle2, styles.mb1, styles.fontNormal]}>{item.time}</Text>
+                            style={[styles.selectedCourseDropdownContainer, { borderBottomWidth: index + 1 == data.length ? 0 : 1 },]}>
+                            <Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), fontWeight: "bold", width: "100%" }]}>{instructorArray[index]} - {item}</Text>
+                            <Text style={[styles.courseCartTitle2, styles.mb1, { fontSize: RFPercentage(1.8), }, styles.fontNormal]}>{`MW 11:30-1:00 pm`}</Text>
                         </TouchableOpacity>
+
+
                     )}
                     keyExtractor={(item, index) => index.toString()}
                 />

@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     mb1: { marginHorizontal: RFPercentage(1) },
     fontNormal: { fontWeight: 'normal' },
     selectedCourseDropdownContainer: {
-        paddingVertical: RFPercentage(1.5),
+        paddingVertical: RFPercentage(2),
         backgroundColor: Colors.lightGray,
         borderBottomColor: Colors.primary,
     },

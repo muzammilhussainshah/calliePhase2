@@ -10,13 +10,14 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 
-import { styles } from './styles';
-import { CARTDATA } from './dummyData';
-import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
-import Button from '../../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import { styles } from './styles';
+import { CourseCart } from './Component';
 import { getCourseSubjectList } from '../../store/action/action';
 
 
@@ -29,14 +30,15 @@ const AddCurrentCourseSubject = ({ navigation }) => {
 
   const dispatch = useDispatch()
 
-  const navigateBack = () => { navigation.goBack(); };
-
   useEffect(() => {
     if (courseSubject.length > 0) setcourseSubjects(courseSubject)
   }, [courseSubject])
+  
   useEffect(() => {
     dispatch(getCourseSubjectList())
   }, [])
+
+  const navigateBack = () => { navigation.goBack(); };
   return (
     <SafeAreaView style={styles.container}>
 
@@ -60,8 +62,8 @@ const AddCurrentCourseSubject = ({ navigation }) => {
 
       <FlatList
         data={courseSubjects}
-        renderItem={({ item }) => <CourseCart item={item} navigation={navigation}/>}
-        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <CourseCart item={item} navigation={navigation} />}
+        keyExtractor={(item, index) => index.toString()}
       />
 
     </SafeAreaView>

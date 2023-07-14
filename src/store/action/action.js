@@ -170,7 +170,6 @@ export function getCourseSubjectList() {
                         const description = titles[i + 1];
                         data.push({ "Subject Code": subjectCode, "Description": description });
                     }
-                    // console.log(data, 'data')
                     dispatch({ type: ActionTypes.COURSESUBJECT, payload: data });
                     // Do something with the extracted data
                 })
@@ -180,6 +179,99 @@ export function getCourseSubjectList() {
         }
         catch (err) {
             console.log(err, 'err profileData')
+        }
+    }
+}
+export const getCourseDetail = (courseName) => {
+    console.log(courseName, 'courseName')
+    return async (dispatch) => {
+        const newURL = `https://www.lsa.umich.edu/cg/cg_results.aspx?termArray=f_23_2460&cgtype=ug&department=${courseName}&allsections=true&show=1000`
+        try {
+            // setloader(true)
+            var config = {
+                method: 'get',
+                url: newURL,
+                headers: { 'Content-Type': 'application/json;charset=utf-8' },
+            };
+
+            axios(config)
+                .then(function (response) {
+                    const htmlContent = response.data;
+                    const $ = cheerio.load(htmlContent);
+                    // console.log($, 'response')
+                    // Use Cheerio selectors to extract the data you need
+                    const titles = [];
+                    $('a[href^="mailto"]')
+                        .each((index, element) => {
+                            const href = $(element).attr('href');
+                            const email = href.replace('mailto:', '').trim();
+                            const text = $(element).text().trim();
+                            titles.push(text);
+                        });
+                    // console.log(titles, 'titlestitles')
+
+                    const sectionarr = []
+                    $('div.row.bottompadding_main')
+                        .each((index, element) => {
+                            const section = $(element)[0].children[1].children[0].data
+                            const cleanTitle = section.replace(/\n|\t/g, '').trim(); // Remove line breaks (\n), tabs (\t), and trim extra spaces
+                            sectionarr.push(cleanTitle);
+                        });
+                    // console.log(sectionarr, 'sectionarr')
+
+                    const courseData = [];
+                    $('a[href^="cg_detail.aspx?content"]').each((index, element) => {
+                        const text = $(element).text().replace(/\n|\t/g, '').replace(/\s+/g, ' ').trim();
+                        const href = $(element).attr('href');
+                        const match = href.match(/content\s*(.*)\s*(\d+)/);
+                        if (match) {
+                            const content = match[1].trim();
+                            const number = match[2];
+                            const data = { text, content: content + number };
+                            courseData.push(data);
+                        }
+                    });
+                    const mergedArray = titles.map((instructorName, index) => {
+                        if (sectionarr[index + 1]?.endsWith('(LEC)')) {
+                            return {
+                                instructorName,
+                                section: sectionarr[index + 1],
+                                text: courseData[index].text,
+                                content: [courseData[index].content]
+                            };
+                        }
+                    });
+
+                    const filteredArray = mergedArray.reduce((acc, current) => {
+                        if (!current) {
+                            return acc;
+                        }
+
+                        const existingObj = acc.find(obj => obj.text === current.text);
+
+                        if (existingObj) {
+                            existingObj.content.push(current.content);
+                            existingObj.instructorName.push(current.instructorName);
+                            existingObj.section.push(current.section);
+                        } else {
+                            acc.push({
+                                ...current,
+                                content: [current.content],
+                                instructorName: [current.instructorName],
+                                section: [current.section]
+                            });
+                        }
+
+                        return acc;
+                    }, []);
+                    dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: filteredArray });
+                })
+                .catch(function (error) {
+                    console.log(error, 'error')
+                });
+        }
+        catch (err) {
+            console.log(err, 'error')
         }
     }
 }

@@ -16,15 +16,33 @@ import { CARTDATA } from './dummyData';
 import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
-import { useDispatch } from 'react-redux';
-import { getCourseSubjectList } from '../../store/action/action';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCourseDetail, getCourseSubjectList } from '../../store/action/action';
 
 
 const AddCurrentCourse = ({ navigation, route }) => {
-  
+
   const selectedCourseSubject = route.params.item
+
   const [selectedCourse, setselectedCourse] = useState([])
+  const [selectedSubjectCourse, setselectedSubjectCourse] = useState([])
+
+  const selectedSubjectCourses = useSelector((state) => state.root.selectedSubjectCourses)
+
   const navigateBack = () => { navigation.goBack(); };
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (selectedCourseSubject) dispatch(getCourseDetail(selectedCourseSubject[`Subject Code`]))
+
+  }, [])
+  
+  useEffect(() => {
+    if (selectedSubjectCourses?.length > 0){
+      setselectedSubjectCourse(selectedSubjectCourses)
+    } 
+  }, [selectedSubjectCourses])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,7 +62,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
           placeholderTextColor={Colors.gray}
         />
       </View>
-      <Text style={[styles.inputTitleMyCourse,]}>{`MY COURSES`}</Text>
+      {/* <Text style={[styles.inputTitleMyCourse,]}>{`MY COURSES`}</Text> */}
 
       {selectedCourse?.data?.length > 0 ?
         <>
@@ -75,9 +93,9 @@ const AddCurrentCourse = ({ navigation, route }) => {
         :
 
         <FlatList
-          data={CARTDATA}
+          data={selectedSubjectCourse}
           renderItem={({ item }) => <CourseCart item={item} setselectedCourse={setselectedCourse} />}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item, index) => index.toString()}
         />
 
       }
