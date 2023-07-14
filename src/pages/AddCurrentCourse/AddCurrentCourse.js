@@ -68,39 +68,10 @@ const AddCurrentCourse = ({ navigation, route }) => {
           placeholderTextColor={Colors.gray}
         />
       </View>
-      {/* <Text style={[styles.inputTitleMyCourse,]}>{`MY COURSES`}</Text> */}
       {loader ?
         <Loader color={Colors.white} />
-
         :
         <>
-          {/* {selectedCourse?.data?.length > 0 ?
-            <>
-              <FlatList
-                data={selectedCourse?.data}
-                contentContainerStyle={styles.myCoursesContentContainer}
-                renderItem={({ item }) => {
-                  return (
-                    <View style={styles.myCoursesListContainer}>
-                      <Text style={styles.myCoursesColor} >{item.name}</Text>
-                      <Button
-                        title={<AntDesign
-                          name='close'
-                          color={Colors.black}
-                          size={RFPercentage(2)} />}
-                        callBack={() => console.log('muzammil hussain')} />
-                    </View>
-                  )
-                }}
-                keyExtractor={(item) => item.id}
-              />
-              <Button
-                title="SAVE"
-                customStyle={styles.loginPrimaryButton(false)}
-                titleStyle={styles.loginPrimaryButtonText(false)}
-              />
-            </> */}
-          {/* : */}
           <FlatList
             data={selectedSubjectCourse}
             renderItem={({ item }) => <CourseCart item={item} selectedCourse={selectedCourse} setselectedCourse={setselectedCourse} />}
@@ -115,7 +86,7 @@ const AddCurrentCourse = ({ navigation, route }) => {
                 title="SAVE"
                 callBack={async () => {
                   if (selectedCourse?.length == 0) Alert.alert("Please select any course")
-                  else Navigate(navigation, 'MyCourses',selectedCourse)
+                  else Navigate(navigation, 'MyCourses', selectedCourse)
                 }}
                 customStyle={styles.loginPrimaryButton(false)}
                 titleStyle={styles.loginPrimaryButtonText(false)}
