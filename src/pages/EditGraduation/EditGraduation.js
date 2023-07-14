@@ -1,17 +1,18 @@
 import React from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity } from 'react-native';
 
 import Button from '../../components/Button';
 import { styles } from './styles';
 import { countries } from './dummyData';
 import { DropDown } from './Component';
+import { Navigate } from '../../store/action/action';
 
 const EditGraduation = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
+      <TouchableOpacity onPress={()=>Navigate(navigation,'Home')} style={styles.header}>
         <Text style={styles.inputTitle}>SKIP</Text>
-      </View>
+      </TouchableOpacity>
 
       <View style={styles.body}>
         <View style={styles.whatIsMajorContainer}>

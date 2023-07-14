@@ -69,12 +69,9 @@ const MyCourses = ({ navigation, route }) => {
                   size={RFPercentage(2)} />}
                 callBack={() => {
                   let deepCopy = JSON.parse(JSON.stringify(myCoursesSt));
-
                   let getIndex = deepCopy.findIndex((val) => val.content[0] == item.content[0])
                   if (getIndex !== -1) deepCopy.splice(getIndex, 1)
-                  console.log(deepCopy, 'deepCopydeepCopy')
                   setMyCoursesSt(deepCopy)
-                  // console.log(myCoursesSt, 'myCoursesStmyCoursesSt', item)
                 }} />
             </View>
           )
@@ -83,6 +80,7 @@ const MyCourses = ({ navigation, route }) => {
       />
       <Button
         title="SAVE"
+        callBack={()=>Navigate(navigation,'EditGraduation')}
         customStyle={styles.loginPrimaryButton(false)}
         titleStyle={styles.loginPrimaryButtonText(false)}
       />
