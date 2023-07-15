@@ -37,7 +37,11 @@ const Welcome = ({ navigation }) => {
         if (currentUser) {
           if (currentUser && currentUser?._user?.emailVerified == false) { navigation.replace('VerifyEmail') }
           // console.log(currentUserDb?.selectedCourseSubject)
-          else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL == null) { navigation.replace('AddProfile') }
+          else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL == null) {
+            console.log(currentUser, 'currentUserDb',)
+
+            navigation.replace('AddProfile')
+          }
           // else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL?.length > 0) { navigation.replace('AddCurrentCourseSubject') }
           // else { }
         }
@@ -61,11 +65,14 @@ const Welcome = ({ navigation }) => {
             || typeof currentUserDb?.myCourses == 'undefined'
             || typeof currentUserDb?.selectedCourseSubject == 'undefined'
           ) {
-            console.log(currentUserDb, 'currentUserDb',)
+            // console.log(currentUserDb, 'currentUserDb',)
             navigation.replace('AddCurrentCourseSubject')
           }
         }
-        else if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) { navigation.replace('Home') }
+         if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) {
+          navigation.replace('Home')
+          console.log(currentUserDb, 'currentUserDb',)
+        }
       } catch (error) {
         console.log(error, 'error')
         Alert.alert(error)
