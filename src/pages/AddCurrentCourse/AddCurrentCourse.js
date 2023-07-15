@@ -10,25 +10,26 @@ import {
 } from 'react-native';
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { firebase } from '@react-native-firebase/auth';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { styles } from './styles';
-import { CARTDATA } from './dummyData';
 import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, getCourseDetail, } from '../../store/action/action';
+import { Navigate, addDataToUserDb, getCourseDetail, getCurrentUserData, } from '../../store/action/action';
 import ActionTypes from '../../store/constant/constant';
 import Loader from '../../components/Loader';
 
 
 const AddCurrentCourse = ({ navigation, route }) => {
 
-  const selectedCourseSubject = route.params.item
+  const selectedCourseSubject = route?.params?.item
 
   const [loading, setLoading] = useState(false);
   const [selectedCourse, setselectedCourse] = useState([])
+  const [selectedCourseSubjectSt, setselectedCourseSubjectSt] = useState([])
   const [selectedSubjectCourse, setselectedSubjectCourse] = useState([])
 
   const selectedSubjectCourses = useSelector((state) => state.root.selectedSubjectCourses)
@@ -37,15 +38,25 @@ const AddCurrentCourse = ({ navigation, route }) => {
   const navigateBack = () => { navigation.goBack(); };
 
   const dispatch = useDispatch()
-
+  const getDbData = async () => {
+    const user = firebase.auth().currentUser
+    let userdbData = await getCurrentUserData()
+    let clone = await JSON.parse(JSON.stringify(userdbData))
+    console.log(clone, 'clone')
+    if (clone !== null) setselectedCourseSubjectSt(clone?.selectedCourseSubject)
+  }
   useEffect(() => {
-    if (selectedCourseSubject) dispatch(getCourseDetail(selectedCourseSubject[`Subject Code`]))
+    getDbData()
+  }, [])
+  useEffect(() => {
+    console.log(selectedCourseSubjectSt, 'selectedCourseSubjectSt')
+    if (selectedCourseSubjectSt) dispatch(getCourseDetail(selectedCourseSubjectSt[`Subject Code`]))
     return () => {
       dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: [] });
       setselectedSubjectCourse([])
     }
 
-  }, [])
+  }, [selectedCourseSubjectSt])
   useEffect(() => {
     if (selectedSubjectCourses?.length > 0) setselectedSubjectCourse(selectedSubjectCourses)
   }, [selectedSubjectCourses])
@@ -107,7 +118,14 @@ const AddCurrentCourse = ({ navigation, route }) => {
                 title="SAVE"
                 callBack={async () => {
                   if (selectedCourse?.length == 0) Alert.alert("Please select any course")
-                  else Navigate(navigation, 'MyCourses', selectedCourse)
+                  else {
+                    const user = firebase.auth().currentUser
+                    let userdbData = await getCurrentUserData()
+                    let clone = await JSON.parse(JSON.stringify(userdbData))
+                    clone.selectedCourse = selectedCourse
+                    addDataToUserDb(user.uid, clone)
+                    Navigate(navigation, 'MyCourses', selectedCourse)
+                  }
                 }}
                 customStyle={styles.loginPrimaryButton(false)}
                 titleStyle={styles.loginPrimaryButtonText(false)}

@@ -11,17 +11,16 @@ import {
 
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { RFPercentage } from 'react-native-responsive-fontsize';
+import { firebase } from '@react-native-firebase/auth';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 
 import { styles } from './styles';
-import { CARTDATA } from './dummyData';
-import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { Navigate, getCourseDetail, getCourseSubjectList } from '../../store/action/action';
-import ActionTypes from '../../store/constant/constant';
-import Loader from '../../components/Loader';
-
+import { Navigate, addDataToUserDb, getCurrentUserData, } from '../../store/action/action';
 
 const MyCourses = ({ navigation, route }) => {
   const myCourses = route.params
@@ -101,8 +100,16 @@ const MyCourses = ({ navigation, route }) => {
       />
       <Button
         title="SAVE"
-        callBack={() => {
-          if (myCoursesSt.length > 0) Navigate(navigation, 'EditGraduation')
+        callBack={async () => {
+          if (myCoursesSt.length > 0) {
+
+            const user = firebase.auth().currentUser
+            let userdbData = await getCurrentUserData()
+            let clone = await JSON.parse(JSON.stringify(userdbData))
+            clone.myCourses = myCoursesSt
+            addDataToUserDb(user.uid, clone)
+            Navigate(navigation, 'EditGraduation')
+          }
           else { Alert.alert('Please select any course') }
         }
         }

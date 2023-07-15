@@ -60,7 +60,7 @@ function App() {
 
     setUser(user);
   }
-  if (currentUser?.isemailVerified == true && currentUser?.photoURL?.length > 0) {
+  if (currentUser?.isemailVerified !== true && currentUser?.photoURL?.length > 0) {
     console.log(user, "AppNavigation", getUserData)
     return (
       <Provider store={store}>

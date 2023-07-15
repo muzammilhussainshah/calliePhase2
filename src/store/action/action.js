@@ -80,7 +80,7 @@ export const updateProfile = async (photoUrlData, navigation, setLoading) => {
                     await firebase.auth().currentUser.updateProfile({ photoURL: downloadURL, });
 
                     setLoading(false)
-                    Navigate(navigation, 'AddCurrentCourse')
+                    Navigate(navigation, 'AddCurrentCourseSubject')
                 });
             }
         );

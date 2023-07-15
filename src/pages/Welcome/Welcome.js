@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '../../components/Button';
 import { styles } from './styles';
-import { Navigate } from '../../store/action/action';
+import { Navigate, getCurrentUserData } from '../../store/action/action';
 import { useSelector } from 'react-redux';
 
 const Welcome = ({ navigation }) => {
@@ -34,11 +34,12 @@ const Welcome = ({ navigation }) => {
         //   }
         // }
         // else
-        console.log(currentUser,'currentUser')
         if (currentUser) {
           if (currentUser && currentUser?._user?.emailVerified == false) { navigation.replace('VerifyEmail') }
+          // console.log(currentUserDb?.selectedCourseSubject)
           else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL == null) { navigation.replace('AddProfile') }
-          else { }
+          // else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL?.length > 0) { navigation.replace('AddCurrentCourseSubject') }
+          // else { }
         }
 
       } catch (error) {
@@ -49,6 +50,28 @@ const Welcome = ({ navigation }) => {
     }
     getUserDataAsync()
   }, [currentUser])
+  useEffect(() => {
+
+    const getUserDataAsync = async (data) => {
+      try {
+        let currentUserDb = await getCurrentUserData();
+        // console.log(currentUserDb, 'currentUserDb',
+        //   currentUserDb, currentUserDb?.isemailVerified == true, currentUserDb?.photoURL?.length > 0
+        //   , typeof currentUserDb?.selectedCourseSubject == undefined)
+        if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0
+          && typeof currentUserDb?.selectedCourseSubject == 'undefined'
+          || typeof currentUserDb?.myCourses == 'undefined'
+          || typeof currentUserDb?.selectedCourseSubject == 'undefined'
+        ) { navigation.replace('AddCurrentCourseSubject') }
+        else if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) { navigation.replace('Home') }
+      } catch (error) {
+        console.log(error, 'error')
+        Alert.alert(error)
+        //Error saving data
+      }
+    }
+    getUserDataAsync()
+  }, [])
 
   return (
 
