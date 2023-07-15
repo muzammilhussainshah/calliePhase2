@@ -55,14 +55,16 @@ const Welcome = ({ navigation }) => {
     const getUserDataAsync = async (data) => {
       try {
         let currentUserDb = await getCurrentUserData();
-        // console.log(currentUserDb, 'currentUserDb',
-        //   currentUserDb, currentUserDb?.isemailVerified == true, currentUserDb?.photoURL?.length > 0
-        //   , typeof currentUserDb?.selectedCourseSubject == undefined)
         if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0
-          && typeof currentUserDb?.selectedCourseSubject == 'undefined'
-          || typeof currentUserDb?.myCourses == 'undefined'
-          || typeof currentUserDb?.selectedCourseSubject == 'undefined'
-        ) { navigation.replace('AddCurrentCourseSubject') }
+        ) {
+          if (typeof currentUserDb?.selectedCourseSubject == 'undefined'
+            || typeof currentUserDb?.myCourses == 'undefined'
+            || typeof currentUserDb?.selectedCourseSubject == 'undefined'
+          ) {
+            console.log(currentUserDb, 'currentUserDb',)
+            navigation.replace('AddCurrentCourseSubject')
+          }
+        }
         else if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) { navigation.replace('Home') }
       } catch (error) {
         console.log(error, 'error')
