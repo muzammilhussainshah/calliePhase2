@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 import {
   View,
   Text,
@@ -12,21 +15,26 @@ import {
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { firebase } from '@react-native-firebase/auth';
 import { RFPercentage } from 'react-native-responsive-fontsize';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
 
-import { styles } from './styles';
-import { CourseCart } from './Component';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
-import { Navigate, addDataToUserDb, getCourseDetail, getCurrentUserData, } from '../../store/action/action';
 import ActionTypes from '../../store/constant/constant';
 import Loader from '../../components/Loader';
+import { styles } from './styles';
+import { CourseCart } from './Component';
+import {
+  Navigate,
+  addDataToUserDb,
+  getCourseDetail,
+  getCurrentUserData,
+} from '../../store/action/action';
 
 
 const AddCurrentCourse = ({ navigation, route }) => {
-
-  const selectedCourseSubject = route?.params?.item
-
   const [loading, setLoading] = useState(false);
   const [selectedCourse, setselectedCourse] = useState([])
   const [selectedCourseSubjectSt, setselectedCourseSubjectSt] = useState([])
@@ -49,7 +57,6 @@ const AddCurrentCourse = ({ navigation, route }) => {
     getDbData()
   }, [])
   useEffect(() => {
-    console.log(selectedCourseSubjectSt, 'selectedCourseSubjectSt')
     if (selectedCourseSubjectSt) dispatch(getCourseDetail(selectedCourseSubjectSt[`Subject Code`]))
     return () => {
       dispatch({ type: ActionTypes.SELECTEDSUBJECTCOURSES, payload: [] });
@@ -63,7 +70,6 @@ const AddCurrentCourse = ({ navigation, route }) => {
 
   const searchUser = (e) => {
     let keywords = e.split(' ');
-    // setsearch(keywords);
     if (keywords[0] === '') {
       setselectedSubjectCourse(selectedSubjectCourses);
     }

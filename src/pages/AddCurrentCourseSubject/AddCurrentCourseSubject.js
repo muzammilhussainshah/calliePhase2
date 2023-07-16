@@ -42,8 +42,7 @@ const AddCurrentCourseSubject = ({ navigation }) => {
 
   const searchUser = (e) => {
     let keywords = e.split(' ');
-    // setsearch(keywords);
-    if (keywords[0] === '') {
+     if (keywords[0] === '') {
       setcourseSubjects(courseSubject);
     }
     if (keywords[0] !== '') {
@@ -75,8 +74,7 @@ const AddCurrentCourseSubject = ({ navigation }) => {
       <View style={styles.searchContainer}>
         <Text style={[styles.description, { width: 'auto' }]}>{`Search courses`}</Text>
         <TextInput
-          // _getText={(text: string) => searchUser(text)}
-          onChangeText={(text) => searchUser(text)}
+           onChangeText={(text) => searchUser(text)}
           style={styles.inlineInput}
           placeholder="Course Name"
           placeholderTextColor={Colors.gray}

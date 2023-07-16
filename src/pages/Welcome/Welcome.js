@@ -9,11 +9,14 @@ import {
 } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSelector } from 'react-redux';
 
 import Button from '../../components/Button';
 import { styles } from './styles';
-import { Navigate, getCurrentUserData } from '../../store/action/action';
-import { useSelector } from 'react-redux';
+import {
+  Navigate,
+  getCurrentUserData
+} from '../../store/action/action';
 
 const Welcome = ({ navigation }) => {
 
@@ -22,28 +25,11 @@ const Welcome = ({ navigation }) => {
   useEffect(() => {
     const getUserDataAsync = async (data) => {
       try {
-        // let currentUserDb = await getCurrentUserData();
-        // if (currentUserDb) {
-        //   if (currentUserDb.isemailVerified == false) {
-
-        //     navigation.replace('VerifyEmail')
-        //   }
-        //   else if (currentUserDb.isemailVerified == true && currentUserDb?.photoURL == undefined) {
-        //     navigation.replace('AddProfile')
-        //     // console.log(currentUser, 'currentUseraa')
-        //   }
-        // }
-        // else
         if (currentUser) {
           if (currentUser && currentUser?._user?.emailVerified == false) { navigation.replace('VerifyEmail') }
-          // console.log(currentUserDb?.selectedCourseSubject)
           else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL == null) {
-            console.log(currentUser, 'currentUserDb',)
-
             navigation.replace('AddProfile')
           }
-          // else if (currentUser && currentUser?._user?.emailVerified == true && currentUser?._user?.photoURL?.length > 0) { navigation.replace('AddCurrentCourseSubject') }
-          // else { }
         }
 
       } catch (error) {
@@ -65,13 +51,11 @@ const Welcome = ({ navigation }) => {
             || typeof currentUserDb?.myCourses == 'undefined'
             || typeof currentUserDb?.selectedCourseSubject == 'undefined'
           ) {
-            // console.log(currentUserDb, 'currentUserDb',)
             navigation.replace('AddCurrentCourseSubject')
           }
         }
-         if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) {
+        if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) {
           navigation.replace('Home')
-          console.log(currentUserDb, 'currentUserDb',)
         }
       } catch (error) {
         console.log(error, 'error')

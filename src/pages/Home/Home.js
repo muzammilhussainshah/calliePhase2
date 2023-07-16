@@ -127,9 +127,7 @@ const Home = ({ navigation }) => {
         <View style={{ flex: 1, justifyContent: 'space-evenly' }}>
           <View>
 
-            <Text style={styles.inputTitle}>Your spot is reserved!</Text>
-
-            <Text style={styles.description}>We’ll launch at schools with the most signups, so tell your friends about us and we’ll notify you when we’re ready!</Text>
+            <Text style={styles.inputTitle}>{`This is home`}</Text>
           </View>
           <Button
             title={`Log Out`}
@@ -139,7 +137,7 @@ const Home = ({ navigation }) => {
               dispatch({ type: ActionTypes.CURRENTUSER, payload: [] })
               //  setLoading(false)
               await auth().signOut()
-              // navigation.navigate('Welcome')
+              navigation.navigate('Welcome')
             }
             }
             customStyle={styles.loginPrimaryButton(true)}

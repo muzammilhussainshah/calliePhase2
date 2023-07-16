@@ -21,7 +21,6 @@ import Colors from '../../styles/Colors';
 export const CourseCart = ({ item, selectedCourse, setselectedCourse }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [loader, setloader] = useState(false)
-    const courseDataLoader = useSelector((state) => state.root.courseDataLoader)
 
     const dispatch = useDispatch()
 
@@ -56,17 +55,20 @@ export const CourseCart = ({ item, selectedCourse, setselectedCourse }) => {
                         return (
                             < TouchableOpacity
                                 onPress={() => {
-                                    let data = JSON.parse(JSON.stringify(selectedCourse))
-                                    let obj = {}
-                                    obj.instructorName = instructorArray[index]
-                                    obj.content = allItem?.content[index]
-                                    obj.section = item
-                                    obj.text = allItem?.text
-                                    obj.time = allItem?.time[index]
-                                    let getIndex = data.findIndex((val) => val?.content[0] == obj?.content[0])
-                                    if (getIndex == -1) data.push(obj)
-                                    else data.splice(getIndex, 1)
-                                    setselectedCourse(data)
+                                    if (!loader) {
+
+                                        let data = JSON.parse(JSON.stringify(selectedCourse))
+                                        let obj = {}
+                                        obj.instructorName = instructorArray[index]
+                                        obj.content = allItem?.content[index]
+                                        obj.section = item
+                                        obj.text = allItem?.text
+                                        obj.time = allItem?.time[index]
+                                        let getIndex = data.findIndex((val) => val?.content[0] == obj?.content[0])
+                                        if (getIndex == -1) data.push(obj)
+                                        else data.splice(getIndex, 1)
+                                        setselectedCourse(data)
+                                    }
                                 }}
                                 style={[styles.selectedCourseDropdownContainer, { borderBottomWidth: index + 1 == data.length ? 0 : 1, },]}>
                                 {loader ?
