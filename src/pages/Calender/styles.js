@@ -32,7 +32,6 @@ export const styles = StyleSheet.create({
     chatWithYourMates: {
         fontWeight: "bold",
         fontSize: RFPercentage(2.2),
-        backgroundColor:'red',
         margin: RFPercentage(1)
     },
     myCourseContainer: {

@@ -6,11 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { RFPercentage } from 'react-native-responsive-fontsize';
+
+import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Colors from '../../styles/Colors';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+
 import { styles } from './styles';
+import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
 
 const Calender = ({ navigation }) => {
@@ -19,7 +22,7 @@ const Calender = ({ navigation }) => {
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShowDatePicker(Platform.OS === 'ios'); // Hide the date picker for iOS immediately after selecting a date
+    setShowDatePicker(false); // Hide the date picker for iOS immediately after selecting a date
     setDate(currentDate); // Update the date state
   };
 
@@ -54,18 +57,17 @@ const Calender = ({ navigation }) => {
             height: '100%',
             width: '100%',
             justifyContent: 'center',
-            // alignItems: 'center',
           }}
         >
           <View style={{ backgroundColor: Colors.white, width: '90%', alignSelf: 'center', overflow: "hidden", borderRadius: RFPercentage(2) }}>
-            <View style={{ backgroundColor: "red", height: RFPercentage(4), justifyContent: "center", alignItems: 'flex-end', paddingHorizontal: RFPercentage(2) }} >
+            <View style={{ height: RFPercentage(4), justifyContent: "center", alignItems: 'flex-end', paddingHorizontal: RFPercentage(2) }} >
 
               <AntDesign name='close' size={RFPercentage(2)} />
             </View>
             <DateTimePicker
               display={showDatePicker}
               value={date}
-              // mode="date"
+              mode='date'
               locale="en"
               onChange={handleDateChange} // Handle date change when using the date picker
             />
@@ -81,7 +83,7 @@ const Calender = ({ navigation }) => {
         <TouchableOpacity onPress={handlePreviousDate}>
           <AntDesign name='left' size={RFPercentage(2)} />
         </TouchableOpacity>
-        <Text onPress={showDatepicker} style={styles.chatWithYourMates}>{date.toDateString()}</Text>
+        <Text onPress={showDatepicker} style={styles.chatWithYourMates}>{moment(date).format('dddd, MMMM DD, YYYY')}</Text>
         <TouchableOpacity onPress={handleNextDate}>
           <AntDesign name='right' size={RFPercentage(2)} />
         </TouchableOpacity>
