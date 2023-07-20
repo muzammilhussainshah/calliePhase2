@@ -16,14 +16,9 @@ export const BottomTabs = () => {
         <Tab.Navigator
             initialRouteName="CalenderStack"
             screenOptions={({ route }) => ({
-
                 activeTintColor: Colors.black,
                 inactiveTintColor: 'gray',
                 headerShown: false,
-                // tabBarStyle: {borderWidth:1},
-                // tabBarLabelStyle: {borderWidth:1,backgroundColor:"red"},
-
-
                 tabBarIcon: ({ color, focused }) => {
                     let iconName;
                     switch (route.name) {
@@ -71,15 +66,6 @@ export const BottomTabs = () => {
                     }
                 },
             })}
-        // tabBarOptions={{
-        //     style: {
-        //       borderTopWidth: 1, // Set the border width for the bottom tab bar
-        //       borderTopColor: 'gray', // Set the border color for the bottom tab bar
-        //       backgroundColor: 'red',
-        //       marginHorizontal: RFPercentage(5),
-        //       height: RFPercentage(8),
-        //     },
-        //   }}
         >
             <Tab.Screen
                 name="CalenderStack"
