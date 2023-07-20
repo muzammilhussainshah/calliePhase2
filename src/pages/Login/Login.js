@@ -53,7 +53,7 @@ const Login = ({ navigation }) => {
       setError('');
       try {
         let user = await auth().signInWithEmailAndPassword(email, confirmPassword);
-        if (user?.user?.emailVerified) Navigate(navigation, 'Home',)
+        if (user?.user?.emailVerified) Navigate(navigation, 'App',)
         else if (user) {
           const data = {}
           data.confirmPassword = confirmPassword;

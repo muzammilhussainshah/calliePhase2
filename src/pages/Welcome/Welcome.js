@@ -55,7 +55,7 @@ const Welcome = ({ navigation }) => {
           }
         }
         if (currentUserDb && currentUserDb?.isemailVerified == true && currentUserDb?.photoURL?.length > 0 && currentUserDb?.selectedCourse?.length > 0 && currentUserDb?.selectedCourseSubject && currentUserDb?.myCourses?.length > 0) {
-          navigation.replace('Home')
+          navigation.replace('App')
         }
       } catch (error) {
         console.log(error, 'error')

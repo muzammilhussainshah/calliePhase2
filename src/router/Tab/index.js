@@ -34,7 +34,7 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"App"}
+        initialRouteName={"Welcome"}
       >
         <Stack.Screen name={'App'} component={BottomTabs} />
         <Stack.Screen name="Welcome" component={Welcome} />

@@ -10,7 +10,7 @@ import { Navigate } from '../../store/action/action';
 const EditGraduation = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
-      <TouchableOpacity onPress={()=>Navigate(navigation,'Home')} style={styles.header}>
+      <TouchableOpacity onPress={()=>Navigate(navigation,'App')} style={styles.header}>
         <Text style={styles.inputTitle}>SKIP</Text>
       </TouchableOpacity>
 

@@ -83,5 +83,15 @@ export const styles = StyleSheet.create({
         // borderWidth:1,
         color: primary ? Colors.secondary : Colors.primary
     }),
+    calenderModalContainer: {
+        position: 'absolute',
+        zIndex: 2,
+        backgroundColor: 'rgba(0, 0, 0, .5)',
+        height: '100%',
+        width: '100%',
+        justifyContent: 'center',
+    },
+    calenderModal: { backgroundColor: Colors.white, width: '90%', alignSelf: 'center', overflow: "hidden", borderRadius: RFPercentage(2) },
+    calenderCrossConatianer: { height: RFPercentage(4), justifyContent: "center", alignItems: 'flex-end', paddingHorizontal: RFPercentage(2) }
 
 });

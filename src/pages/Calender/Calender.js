@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -15,10 +15,12 @@ import { RFPercentage } from 'react-native-responsive-fontsize';
 import { styles } from './styles';
 import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
+import { getCurrentUserData } from '../../store/action/action';
 
 const Calender = ({ navigation }) => {
   const [date, setDate] = useState(new Date()); // Date state
   const [showDatePicker, setShowDatePicker] = useState(false); // State to control the visibility of the date picker
+  const [currentUser, setCurrentUser] = useState([]); // State to control the visibility of the date picker
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -44,24 +46,27 @@ const Calender = ({ navigation }) => {
     // showDatepicker(); // Show the date picker after changing the date
   };
 
+
+
+  useEffect(() => {
+    const getUserDataFromDb = async () => {
+      let currentUserDb = await getCurrentUserData();
+      console.log(currentUserDb, 'currentUserDb')
+      if (currentUserDb) setCurrentUser(currentUserDb)
+    }
+    getUserDataFromDb()
+
+  }, [])
   return (
     <SafeAreaView style={styles.container}>
       {showDatePicker && (
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => setShowDatePicker(false)}
-          style={{
-            position: 'absolute',
-            zIndex: 2,
-            backgroundColor: 'rgba(0, 0, 0, .5)',
-            height: '100%',
-            width: '100%',
-            justifyContent: 'center',
-          }}
+          style={styles.calenderModalContainer}
         >
-          <View style={{ backgroundColor: Colors.white, width: '90%', alignSelf: 'center', overflow: "hidden", borderRadius: RFPercentage(2) }}>
-            <View style={{ height: RFPercentage(4), justifyContent: "center", alignItems: 'flex-end', paddingHorizontal: RFPercentage(2) }} >
-
+          <View style={styles.calenderModal}>
+            <View style={styles.calenderCrossConatianer} >
               <AntDesign name='close' size={RFPercentage(2)} />
             </View>
             <DateTimePicker
@@ -92,22 +97,27 @@ const Calender = ({ navigation }) => {
         <Text style={styles.chatWithYourMates}>Chat with your classmates</Text>
       </View>
       <FlatList
-        data={[0, 0, 0]}
-        renderItem={({ item }) => (
-          <View style={styles.myCourseContainer}>
-            <View style={styles.CourseNameAndTimeContainer}>
-              <Text style={styles.CourseName}>ECON 101</Text>
-              <Text style={styles.CourseTime}>8:25 - 9:55 AM</Text>
+        data={currentUser?.selectedCourse}
+        renderItem={({ item }) => {
+          let newText = item.text.split(' - ')[0];
+          let newSectionText = item.section.match(/\d+/)[0];
+
+          return (
+            <View style={styles.myCourseContainer}>
+              <View style={styles.CourseNameAndTimeContainer}>
+                <Text style={styles.CourseName}>{newText} ({newSectionText})</Text>
+                <Text style={styles.CourseTime}>{item.time}</Text>
+              </View>
+              <View style={styles.chatBtnContainer}>
+                <Button
+                  title={`Chat`}
+                  customStyle={styles.loginPrimaryButton(false)}
+                  titleStyle={styles.loginPrimaryButtonText(false)}
+                />
+              </View>
             </View>
-            <View style={styles.chatBtnContainer}>
-              <Button
-                title={`Chat`}
-                customStyle={styles.loginPrimaryButton(false)}
-                titleStyle={styles.loginPrimaryButtonText(false)}
-              />
-            </View>
-          </View>
-        )}
+          )
+        }}
         keyExtractor={(item, index) => index.toString()}
       />
     </SafeAreaView>
