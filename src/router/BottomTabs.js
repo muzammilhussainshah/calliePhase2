@@ -1,118 +1,115 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Feather from 'react-native-vector-icons/Feather';
-// import Octicons from 'react-native-vector-icons/Octicons';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-// import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-// import Entypo from 'react-native-vector-icons/Entypo';
-// import TableMapStack from '../stacks/TableMap';
-// import BookingStack from '../stacks/BookingStack';
-// import ChatStack from '../stacks/ChatStack';
-// import LoyaltyStack from '../stacks/LoyaltyStack';
-// import StaffStack from '../stacks/StaffStack';
-// import RestaurentsStack from '../stacks/RestaurentsStack';
-// import NewsStack from '../stacks/NewsStack';
-// import ProfileStack from '../stacks/ProfileStack';
-// import style from '../style';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import { RFPercentage } from 'react-native-responsive-fontsize';
+import Colors from '../styles/Colors';
 import CalenderStack from './Stacks/CalenderStack';
 import ChatStack from './Stacks/ChatStack';
 import ProfileStack from './Stacks/ProfileStack';
-// import NetInfo from '@react-native-community/netinfo';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { IS_INTERNET_CONNECTED } from '../../store/constants';
-// import {
-// $subscribeUnreadMessagesListener,
-// $unsubscribeUnreadMessagesListener
-// } from '../../services/chatroom';
-// import {
-// unSubscribePulseListener,
-// updateBadgeDisplayStatus
-// } from '../../services/app';
-// import { isTablet } from 'react-native-device-info';
-// import theme from '../../theme/theme';
 
-// const { tabBarLabelStyle, tabBarStyle } = style;
 const Tab = createBottomTabNavigator();
 
 export const BottomTabs = () => {
-
-
     return (
         <Tab.Navigator
             initialRouteName="CalenderStack"
-            screenOptions={{
-                // tabBarLabelStyle: tabBarLabelStyle,
-                tabBarActiveBackgroundColor: 'rgba(0, 0, 0, 0.33)',
-                tabBarInactiveTintColor: 'rgba(255, 255, 255, .33)',
-                tabBarHideOnKeyboard: true,
-                // tabBarActiveTintColor: theme.colors.white,
-                headerShown: false,
-                tabBarLabelPosition: 'below-icon',
-                // tabBarStyle: tabBarStyle
-            }}
-        >
+            screenOptions={({ route }) => ({
 
+                activeTintColor: Colors.black,
+                inactiveTintColor: 'gray',
+                headerShown: false,
+                // tabBarStyle: {borderWidth:1},
+                // tabBarLabelStyle: {borderWidth:1,backgroundColor:"red"},
+
+
+                tabBarIcon: ({ color, focused }) => {
+                    let iconName;
+                    switch (route.name) {
+                        case 'CalenderStack':
+                            iconName = 'calendar';
+                            break;
+                        case 'ChatStack':
+                            iconName = 'chatbubble-outline';
+                            break;
+                        case 'ProfileStack':
+                            iconName = 'user';
+                            break;
+                        default:
+                            iconName = 'calendar';
+                    }
+
+                    // Set the color based on focused (active) state
+                    const iconColor = focused ? Colors.black : 'gray';
+
+                    // Render the icon with the determined color
+                    if (route.name === 'CalenderStack') {
+                        return (
+                            <FontAwesome5
+                                name={iconName}
+                                size={RFPercentage(3)}
+                                style={{ color: iconColor, fontweight: 'bold', }}
+                            />
+                        );
+                    } else if (route.name === 'ChatStack') {
+                        return (
+                            <Ionicons
+                                name={iconName}
+                                size={RFPercentage(2.7)}
+                                style={{ color: iconColor, fontweight: 'bold', }}
+                            />
+                        );
+                    } else if (route.name === 'ProfileStack') {
+                        return (
+                            <SimpleLineIcons
+                                name={iconName}
+                                size={RFPercentage(2.7)}
+                                style={{ color: iconColor, fontweight: 'bold', }}
+                            />
+                        );
+                    }
+                },
+            })}
+        // tabBarOptions={{
+        //     style: {
+        //       borderTopWidth: 1, // Set the border width for the bottom tab bar
+        //       borderTopColor: 'gray', // Set the border color for the bottom tab bar
+        //       backgroundColor: 'red',
+        //       marginHorizontal: RFPercentage(5),
+        //       height: RFPercentage(8),
+        //     },
+        //   }}
+        >
             <Tab.Screen
                 name="CalenderStack"
                 component={CalenderStack}
+
                 options={{
                     tabBarItemStyle: {
-                        borderRadius: 8,
-                        marginBottom: 5
+                        borderTopWidth: 1,
                     },
-                    tabBarLabel: 'Calender',
-                    // tabBarIcon: ({ color }) => (
-                    //     <Feather
-                    //         name="book-open"
-                    //         size={20}
-                    //         style={{ color: color, marginTop: 2 }}
-                    //     />
-                    // )
+                    tabBarLabel: () => null, // Hide the label for this tab
                 }}
             />
             <Tab.Screen
                 name="ChatStack"
                 component={ChatStack}
-            // options={{
-            //     tabBarItemStyle: {
-            //         borderRadius: 8,
-            //         marginBottom: 5
-            //     },
-            //     tabBarLabel: 'Chats',
-            //     tabBarIcon: ({ color }) => (
-            //         <Ionicons
-            //             name="md-chatbubble-ellipses"
-            //             size={18}
-            //             style={{color: color, marginTop: 2 }}
-            //         />
-            //     ),
-            //     // tabBarBadge:
-            //         // unreadMessages > 0 ? unreadMessages : undefined,
-            //     tabBarBadgeStyle: {
-            //         marginLeft: 2,
-            //         top: -5,
-            //         transform: [{ scale: 0.6 }]
-            //     }
-            // }}
+                options={{
+                    tabBarItemStyle: {
+                        borderTopWidth: 1,
+                    },
+                    tabBarLabel: () => null, // Hide the label for this tab
+                }}
             />
-
             <Tab.Screen
                 name="ProfileStack"
                 component={ProfileStack}
                 options={{
                     tabBarItemStyle: {
-                        borderRadius: 8,
-                        marginBottom: 5
+                        borderTopWidth: 1,
                     },
-                    tabBarLabel: 'Profile',
-                    // tabBarIcon: ({ color }) => (
-                    //     <FontAwesome5
-                    //         name="user-circle"
-                    //         size={18}
-                    //         style={{ color: color, marginTop: 2 }}
-                    //     />
-                    // )
+                    tabBarLabel: () => null, // Hide the label for this tab
                 }}
             />
         </Tab.Navigator>
