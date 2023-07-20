@@ -48,6 +48,7 @@ export const Navigation = () => {
         <Stack.Screen name="ForgetPasswordEmailSent" component={ForgetPasswordEmailSent} />
         <Stack.Screen name="MyCourses" component={MyCourses} />
         <Stack.Screen name="Home" component={Home} />
+        {/* <Stack.Screen name="Home" component={Home} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );

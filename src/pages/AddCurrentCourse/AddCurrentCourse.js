@@ -50,7 +50,6 @@ const AddCurrentCourse = ({ navigation, route }) => {
     const user = firebase.auth().currentUser
     let userdbData = await getCurrentUserData()
     let clone = await JSON.parse(JSON.stringify(userdbData))
-    console.log(clone, 'clone')
     if (clone !== null) setselectedCourseSubjectSt(clone?.selectedCourseSubject)
   }
   useEffect(() => {

@@ -25,8 +25,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({ navigation }) => {
 
-  const [email, setemail] = useState('mynameismuzammilhussainshah@gmail.com');
-  const [confirmPassword, setConfirmPassword] = useState('12345678');
+  const [email, setemail] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [check, setcheck] = useState(false);
   const [error, setError] = useState('');

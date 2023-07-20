@@ -20,9 +20,10 @@ import { Navigate } from '../../store/action/action';
 
 const ForgetPassword = ({ navigation }) => {
 
-  const [email, setEmail] = useState('mynameismuzammilhussainshah@gmail.com');
+  const [email, setEmail] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
   const [error, setError] = useState('');
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(edu)$/i;
   const handleForget = async () => {
     setError('');
     // if (firstName.trim() === '') {
@@ -35,10 +36,10 @@ const ForgetPassword = ({ navigation }) => {
       setErrorTitle('Email Required');
       setError('Please enter your email');
     }
-    //  else if (!emailRegex.test(email)) {
-    //   setErrorTitle('Invalid Email');
-    //   setError('Email is not a valid .edu address.');
-    // }
+    else if (!emailRegex.test(email)) {
+      setErrorTitle('Invalid Email');
+      setError('Email is not a valid .edu address.');
+    }
     else {
       console.log("setpasssword")
       await auth().sendPasswordResetEmail(email);

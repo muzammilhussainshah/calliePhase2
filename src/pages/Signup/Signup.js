@@ -19,13 +19,13 @@ import { styles } from './styles';
 
 const Signup = ({ navigation }) => {
 
-  const [firstName, setFirstName] = useState('muzammil');
-  const [lastName, setLastName] = useState('shah');
-  const [email, setEmail] = useState('mynameismuzammilhussainshah@gmail.com');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
 
-  // const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(edu)$/i;
+  const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.(edu)$/i;
 
   const handleSignup = () => {
     setError('');
@@ -39,12 +39,11 @@ const Signup = ({ navigation }) => {
       setErrorTitle('Email Required');
       setError('Please enter your email');
     }
-    //  else if (!emailRegex.test(email)) {
-    //   setErrorTitle('Invalid Email');
-    //   setError('Email is not a valid .edu address.');
-    // }
+     else if (!emailRegex.test(email)) {
+      setErrorTitle('Invalid Email');
+      setError('Email is not a valid .edu address.');
+    }
      else {
-      console.log("setpasssword")
       Navigate(navigation, 'SetPassword', { email, firstName, lastName });
     }
   };
