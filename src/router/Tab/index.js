@@ -19,6 +19,7 @@ import ForgetPassword from '../../pages/ForgetPassword/ForgetPassword';
 import ForgetPasswordEmailSent from '../../pages/ForgetPasswordEmailSent/ForgetPasswordEmailSent';
 import AddCurrentCourseSubject from '../../pages/AddCurrentCourseSubject/AddCurrentCourseSubject';
 import MyCourses from '../../pages/MyCourses/MyCourses';
+import { BottomTabs } from '../BottomTabs';
 
 const Stack = createStackNavigator();
 
@@ -33,8 +34,9 @@ export const Navigation = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName={"Welcome"}
+        initialRouteName={"App"}
       >
+        <RootStack.Screen name={'App'} component={BottomTabs} />
         <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Signup" component={Signup} />
@@ -48,6 +50,7 @@ export const Navigation = () => {
         <Stack.Screen name="ForgetPasswordEmailSent" component={ForgetPasswordEmailSent} />
         <Stack.Screen name="MyCourses" component={MyCourses} />
         <Stack.Screen name="Home" component={Home} />
+
         {/* <Stack.Screen name="Home" component={Home} /> */}
       </Stack.Navigator>
     </NavigationContainer>
