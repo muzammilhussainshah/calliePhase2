@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
         width: "90%",
         alignSelf: 'center',
         flexDirection: 'row',
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: 'center',
         paddingHorizontal: RFPercentage(2)
     },
@@ -32,6 +32,7 @@ export const styles = StyleSheet.create({
     chatWithYourMates: {
         fontWeight: "bold",
         fontSize: RFPercentage(2.2),
+        backgroundColor:'red',
         margin: RFPercentage(1)
     },
     myCourseContainer: {
