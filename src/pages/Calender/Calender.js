@@ -1,4 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useEffect,
+  useState
+} from 'react';
 import {
   FlatList,
   SafeAreaView,
@@ -10,11 +13,11 @@ import {
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { firebase } from '@react-native-firebase/auth';
 import { RFPercentage } from 'react-native-responsive-fontsize';
 
-import { styles } from './styles';
-import Colors from '../../styles/Colors';
 import Button from '../../components/Button';
+import { styles } from './styles';
 import { getCurrentUserData } from '../../store/action/action';
 
 const Calender = ({ navigation }) => {
@@ -36,17 +39,13 @@ const Calender = ({ navigation }) => {
     const previousDate = new Date(date);
     previousDate.setDate(date.getDate() - 1);
     setDate(previousDate);
-    // showDatepicker(); // Show the date picker after changing the date
   };
 
   const handleNextDate = () => {
     const nextDate = new Date(date);
     nextDate.setDate(date.getDate() + 1);
     setDate(nextDate);
-    // showDatepicker(); // Show the date picker after changing the date
   };
-
-
 
   useEffect(() => {
     const getUserDataFromDb = async () => {
@@ -82,7 +81,7 @@ const Calender = ({ navigation }) => {
 
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>MICHIGAN</Text>
-        <AntDesign name={`setting`} size={RFPercentage(4)} />
+        <AntDesign onPress={() => { firebase.auth().signOut() }} name={`setting`} size={RFPercentage(4)} />
       </View>
       <View style={styles.calenderContainer}>
         <TouchableOpacity onPress={handlePreviousDate}>

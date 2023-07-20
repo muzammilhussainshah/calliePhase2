@@ -19,9 +19,9 @@ import { styles } from './styles';
 
 const Signup = ({ navigation }) => {
 
-  const [firstName, setFirstName] = useState('muzammil');
-  const [lastName, setLastName] = useState('hussain');
-  const [email, setEmail] = useState('mynameismuzammilhussainshah@gmail.com');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [errorTitle, setErrorTitle] = useState('');
 
@@ -39,10 +39,10 @@ const Signup = ({ navigation }) => {
       setErrorTitle('Email Required');
       setError('Please enter your email');
     }
-    //  else if (!emailRegex.test(email)) {
-    //   setErrorTitle('Invalid Email');
-    //   setError('Email is not a valid .edu address.');
-    // }
+     else if (!emailRegex.test(email)) {
+      setErrorTitle('Invalid Email');
+      setError('Email is not a valid .edu address.');
+    }
      else {
       Navigate(navigation, 'SetPassword', { email, firstName, lastName });
     }

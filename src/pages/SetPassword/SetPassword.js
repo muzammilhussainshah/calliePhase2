@@ -27,9 +27,8 @@ import { Navigate } from '../../store/action/action';
 const SetPassword = ({ navigation, route }) => {
   let userInfo = route?.params;
   let comeFromForget = route?.params?.comeFromForget;
-  console.log(comeFromForget, 'routerouteroute')
-  const [password, setPassword] = useState('12345678');
-  const [confirmPassword, setConfirmPassword] = useState('12345678');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [error, setError] = useState('');

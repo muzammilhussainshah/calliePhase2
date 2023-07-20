@@ -70,7 +70,6 @@ export const BottomTabs = () => {
             <Tab.Screen
                 name="CalenderStack"
                 component={CalenderStack}
-
                 options={{
                     tabBarItemStyle: {
                         borderTopWidth: 1,
