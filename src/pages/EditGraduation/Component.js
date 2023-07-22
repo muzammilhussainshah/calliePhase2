@@ -7,14 +7,14 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import { styles } from './styles';
 import Colors from '../../styles/Colors';
 
-export const DropDown = ({ countries,   }) => {
+export const DropDown = ({ countries,  placeHolder }) => {
     const handleMajorSelection = (selectedItem, index) => { console.log(selectedItem, index); };
     return (
 
         <SelectDropdown
             data={countries}
             onSelect={handleMajorSelection}
-            defaultButtonText="Select graduation year"
+            defaultButtonText={placeHolder?placeHolder:"Select graduation year"}
             buttonTextAfterSelection={(selectedItem, index) => selectedItem}
             rowTextForSelection={(item, index) => item}
             buttonStyle={styles.dropdown2BtnStyle}

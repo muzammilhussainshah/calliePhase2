@@ -22,8 +22,8 @@
 		5765213940C17B31A7DDFC58 /* libPods-Callie-CallieTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 62D5F9A9B1D4832F08C37BF2 /* libPods-Callie-CallieTests.a */; };
 		5C832506BAB044C1BD6DFBD3 /* Inter-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 637715151C0A42699D14C9B8 /* Inter-Thin.ttf */; };
 		64B0B64D24864206A125240B /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0766C4FCFC374CEDB16A4996 /* Poppins-Thin.ttf */; };
+		6807C1AB2A6AD8160094D89F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6807C1AA2A6AD8160094D89F /* GoogleService-Info.plist */; };
 		682FDC03E6C24B7EBC896422 /* README 2.txt in Resources */ = {isa = PBXBuildFile; fileRef = E799D862CC954017A5805B72 /* README 2.txt */; };
-		74D1AA562A4A503C0079992B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 74D1AA552A4A503C0079992B /* GoogleService-Info.plist */; };
 		76EC7BADD83E445D9F8E9EA0 /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2426510E32454F6FB2F21255 /* Poppins-ThinItalic.ttf */; };
 		76F1D04664544DAE858700DA /* Inter-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A81521FD8C1448EE890F1650 /* Inter-ExtraBold.ttf */; };
 		804C9267AFBA4C84A0DC10EE /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E5EED7D93D8F449A80E3CC48 /* Poppins-Medium.ttf */; };
@@ -93,9 +93,9 @@
 		62D5F9A9B1D4832F08C37BF2 /* libPods-Callie-CallieTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Callie-CallieTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		637715151C0A42699D14C9B8 /* Inter-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Thin.ttf"; path = "../assets/fonts/static/Inter-Thin.ttf"; sourceTree = "<group>"; };
 		66D2D3A05747443CBAFDEBD3 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = ../assets/fonts/Octicons.ttf; sourceTree = "<group>"; };
+		6807C1AA2A6AD8160094D89F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		6877ADE7FFF64D3D8B8C133E /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = ../assets/fonts/AntDesign.ttf; sourceTree = "<group>"; };
 		6AAE6C143C674536B1B052BD /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraLightItalic.ttf"; path = "../assets/fonts/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; };
-		74D1AA552A4A503C0079992B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7B1C46EC840344096B2A8254 /* Pods-Callie.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Callie.debug.xcconfig"; path = "Target Support Files/Pods-Callie/Pods-Callie.debug.xcconfig"; sourceTree = "<group>"; };
 		7EEF636F9C634149B75B67A9 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; };
 		7F1EA0A1CB7446D193015ABE /* Inter-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Medium.ttf"; path = "../assets/fonts/static/Inter-Medium.ttf"; sourceTree = "<group>"; };
@@ -253,7 +253,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				74D1AA552A4A503C0079992B /* GoogleService-Info.plist */,
+				6807C1AA2A6AD8160094D89F /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Callie */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* CallieTests */,
@@ -409,7 +409,7 @@
 				76F1D04664544DAE858700DA /* Inter-ExtraBold.ttf in Resources */,
 				84AE3D4687EA474E9B44D81A /* Inter-ExtraLight.ttf in Resources */,
 				C4FD115BCBFB44AC98805CF4 /* Inter-Light.ttf in Resources */,
-				74D1AA562A4A503C0079992B /* GoogleService-Info.plist in Resources */,
+				6807C1AB2A6AD8160094D89F /* GoogleService-Info.plist in Resources */,
 				5466310B98FB46C897701CE3 /* Inter-Medium.ttf in Resources */,
 				F2FF81DC78C94849AAB39136 /* Inter-Regular.ttf in Resources */,
 				50E025E8437642748EFCE04B /* Inter-SemiBold.ttf in Resources */,
